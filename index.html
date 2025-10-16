@@ -1,0 +1,161 @@
+<!DOCTYPE html> <!-- Define que este é um documento HTML5 -->
+<html lang="pt-BR"> <!-- Tag raiz do documento, define idioma português Brasil -->
+<head> <!-- Cabeçalho do documento - contém metadados -->
+    <meta charset="UTF-8"> <!-- Define codificação de caracteres como UTF-8 (suporta acentos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Configura viewport para responsividade -->
+    <title>Amigos dos Bichos - Sistema de Petshop</title> <!-- Título que aparece na aba do navegador -->
+    <link rel="stylesheet" href="css/style.css"> <!-- Link para arquivo CSS externo -->
+</head>
+<body> <!-- Corpo do documento - conteúdo visível na página -->
+    <!-- Cabeçalho principal da página -->
+    <header class="header"> <!-- Tag semântica para cabeçalho -->
+        <h1 class="header__title">🐾 Amigos dos Bichos</h1> <!-- Título principal com emoji -->
+        <p class="header__subtitle">Sistema de Gerenciamento de Petshop</p> <!-- Subtítulo -->
+    </header>
+
+    <main class="main"> <!-- Tag semântica para conteúdo principal -->
+        
+        <!-- Seção 1: Cadastro de Animais -->
+        <section class="section" id="cadastro-section"> <!-- Seção com classe e ID para estilização -->
+            <h2 class="section__title">📝 Cadastrar Novo Animal</h2> <!-- Título da seção -->
+            
+            <form class="form" id="animal-form"> <!-- Formulário para cadastro com ID para JavaScript -->
+                
+                <!-- Grupo 1: Nome do Animal -->
+                <div class="form__group"> <!-- Container para agrupar label e input -->
+                    <label for="nome" class="form__label">Nome do Animal:</label> <!-- Label associada ao input -->
+                    <input type="text" id="nome" class="form__input" required> <!-- Input de texto obrigatório -->
+                </div>
+                
+                <!-- Grupo 2: Nome do Dono -->
+                <div class="form__group">
+                    <label for="dono" class="form__label">Nome do Dono:</label>
+                    <input type="text" id="dono" class="form__input" required>
+                </div>
+                
+                <!-- Grupo 3: Espécie (Select) -->
+                <div class="form__group">
+                    <label for="especie" class="form__label">Espécie:</label>
+                    <select id="especie" class="form__select" required> <!-- Lista suspensa -->
+                        <option value="">Selecione a espécie</option> <!-- Opção padrão vazia -->
+                        <option value="Cachorro">Cachorro</option> <!-- Opção 1 -->
+                        <option value="Gato">Gato</option> <!-- Opção 2 -->
+                        <option value="Pássaro">Pássaro</option> <!-- Opção 3 -->
+                        <option value="Outro">Outro</option> <!-- Opção 4 -->
+                    </select>
+                </div>
+                
+                <!-- Grupo 4: Raça -->
+                <div class="form__group">
+                    <label for="raca" class="form__label">Raça:</label>
+                    <input type="text" id="raca" class="form__input" required>
+                </div>
+                
+                <!-- Grupo 5: Data de Nascimento -->
+                <div class="form__group">
+                    <label for="nascimento" class="form__label">Data de Nascimento:</label>
+                    <input type="date" id="nascimento" class="form__input" required> <!-- Input tipo data -->
+                </div>
+                
+                <!-- Grupo 6: Vacinação (Checkbox) -->
+                <div class="form__group">
+                    <label class="form__checkbox-label"> <!-- Label para checkbox -->
+                        <input type="checkbox" id="vacinado" class="form__checkbox"> <!-- Checkbox -->
+                        <span class="form__checkbox-text">Animal está vacinado</span> <!-- Texto do checkbox -->
+                    </label>
+                </div>
+                
+                <!-- Botão de Submissão -->
+                <button type="submit" class="form__button">Cadastrar Animal</button> <!-- Botão do formulário -->
+                
+            </form>
+        </section>
+
+        <!-- Seção 2: Lista de Animais Cadastrados -->
+        <section class="section" id="lista-section">
+            <h2 class="section__title">🐕 Lista de Animais Cadastrados</h2>
+            
+            <!-- Container para filtros -->
+            <div class="filters"> <!-- Div para agrupar os filtros -->
+                <button id="filter-all" class="filter-button filter-button--active">Todos</button> <!-- Botão filtro Todos -->
+                <button id="filter-vacinados" class="filter-button">Vacinados</button> <!-- Botão filtro Vacinados -->
+                <button id="filter-nao-vacinados" class="filter-button">Não Vacinados</button> <!-- Botão filtro Não Vacinados -->
+            </div>
+            
+            <!-- Tabela para exibir animais -->
+            <table class="table"> <!-- Tabela semântica -->
+                <thead class="table__header"> <!-- Cabeçalho da tabela -->
+                    <tr> <!-- Table Row - linha da tabela -->
+                        <th>Nome</th> <!-- Table Header - célula de cabeçalho -->
+                        <th>Dono</th>
+                        <th>Espécie</th>
+                        <th>Raça</th>
+                        <th>Idade</th> <!-- Coluna idade calculada automaticamente -->
+                        <th>Vacinado</th>
+                        <th>Ações</th> <!-- Coluna para botões de ação -->
+                    </tr>
+                </thead>
+                <tbody id="animal-list" class="table__body"> <!-- Corpo da tabela - dinâmico via JS -->
+                    <!-- Os animais serão inseridos aqui via JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Seção 3: Agendamento de Serviços -->
+        <section class="section" id="agendamento-section">
+            <h2 class="section__title">📅 Agendar Serviço</h2>
+            
+            <form class="form" id="servico-form"> <!-- Formulário de agendamento -->
+                
+                <!-- Seleção do Animal -->
+                <div class="form__group">
+                    <label for="animal-select" class="form__label">Selecionar Animal:</label>
+                    <select id="animal-select" class="form__select" required> <!-- Select dinâmico -->
+                        <option value="">Selecione um animal</option>
+                        <!-- Opções serão preenchidas via JavaScript -->
+                    </select>
+                </div>
+                
+                <!-- Seleção do Serviço -->
+                <div class="form__group">
+                    <label for="servico" class="form__label">Tipo de Serviço:</label>
+                    <select id="servico" class="form__select" required>
+                        <option value="">Selecione o serviço</option>
+                        <option value="Banho">Banho - R$ 30,00</option> <!-- Opção com preço fixo -->
+                        <option value="Tosa">Tosa - R$ 40,00</option>
+                        <option value="Vacinação">Vacinação - R$ 60,00</option>
+                        <option value="Consulta">Consulta - R$ 50,00</option>
+                    </select>
+                </div>
+                
+                <!-- Data do Agendamento -->
+                <div class="form__group">
+                    <label for="data-servico" class="form__label">Data do Serviço:</label>
+                    <input type="date" id="data-servico" class="form__input" required>
+                </div>
+                
+                <!-- Botão de Agendamento -->
+                <button type="submit" class="form__button">Agendar Serviço</button>
+                
+            </form>
+            
+            <!-- Lista de Serviços Agendados -->
+            <div class="servicos-list">
+                <h3 class="servicos-list__title">Serviços Agendados</h3>
+                <ul id="lista-servicos" class="servicos-list__items"> <!-- Lista não ordenada -->
+                    <!-- Serviços serão inseridos aqui via JavaScript -->
+                </ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé da página -->
+    <footer class="footer"> <!-- Tag semântica para rodapé -->
+        <p class="footer__text">Sistema Amigos dos Bichos &copy; 2024</p> <!-- Texto do rodapé -->
+    </footer>
+
+    <!-- Inclusão do arquivo JavaScript -->
+    <script src="dist/script.js"></script> <!-- Script deve ser carregado no final do body -->
+</body>
+</html>

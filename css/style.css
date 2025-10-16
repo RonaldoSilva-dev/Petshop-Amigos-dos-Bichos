@@ -1,0 +1,225 @@
+/* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
+* { /* Seletor universal - aplica a todos os elementos */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove paddings padrão */
+    box-sizing: border-box; /* Inclui padding e border no cálculo do width/height */
+}
+
+body { /* Estilização do corpo da página */
+    font-family: 'Arial', sans-serif; /* Define fonte padrão */
+    line-height: 1.6; /* Altura da linha para melhor legibilidade */
+    color: #333; /* Cor do texto principal */
+    background-color: #f4f4f4; /* Cor de fundo da página */
+    padding: 20px; /* Espaçamento interno */
+}
+
+/* ===== HEADER ===== */
+.header { /* Classe do cabeçalho */
+    text-align: center; /* Centraliza o texto */
+    margin-bottom: 30px; /* Espaço abaixo do header */
+    padding: 20px; /* Espaçamento interno */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradiente de fundo */
+    color: white; /* Cor do texto */
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+.header__title { /* Classe do título principal */
+    font-size: 2.5rem; /* Tamanho da fonte */
+    margin-bottom: 10px; /* Espaço abaixo do título */
+}
+
+.header__subtitle { /* Classe do subtítulo */
+    font-size: 1.2rem; /* Tamanho da fonte */
+    opacity: 0.9; /* Leve transparência */
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.main { /* Classe do conteúdo principal */
+    max-width: 1200px; /* Largura máxima */
+    margin: 0 auto; /* Centraliza na página */
+}
+
+.section { /* Classe para cada seção */
+    background: white; /* Fundo branco */
+    margin-bottom: 30px; /* Espaço entre seções */
+    padding: 25px; /* Espaçamento interno */
+    border-radius: 10px; /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+}
+
+.section__title { /* Classe para títulos das seções */
+    color: #4a5568; /* Cor do texto */
+    margin-bottom: 20px; /* Espaço abaixo do título */
+    font-size: 1.5rem; /* Tamanho da fonte */
+    border-bottom: 2px solid #e2e8f0; /* Linha inferior */
+    padding-bottom: 10px; /* Espaço acima da linha */
+}
+
+/* ===== FORMULÁRIOS ===== */
+.form { /* Classe base para formulários */
+    display: flex; /* Usa flexbox para layout */
+    flex-direction: column; /* Organiza itens em coluna */
+    gap: 15px; /* Espaço entre os elementos */
+}
+
+.form__group { /* Classe para grupo de campos */
+    display: flex; /* Flexbox para alinhamento */
+    flex-direction: column; /* Organiza em coluna */
+}
+
+.form__label { /* Classe para labels */
+    margin-bottom: 5px; /* Espaço abaixo do label */
+    font-weight: bold; /* Texto em negrito */
+    color: #4a5568; /* Cor do texto */
+}
+
+.form__input, .form__select { /* Classes para inputs e selects */
+    padding: 10px; /* Espaçamento interno */
+    border: 2px solid #e2e8f0; /* Borda padrão */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 1rem; /* Tamanho da fonte */
+    transition: border-color 0.3s; /* Transição suave para hover/focus */
+}
+
+.form__input:focus, .form__select:focus { /* Estilo quando elemento está focado */
+    outline: none; /* Remove contorno padrão */
+    border-color: #667eea; /* Muda cor da borda */
+}
+
+.form__checkbox-label { /* Label personalizada para checkbox */
+    display: flex; /* Flexbox para alinhamento */
+    align-items: center; /* Centraliza verticalmente */
+    cursor: pointer; /* Cursor de ponteiro */
+}
+
+.form__checkbox { /* Checkbox personalizado */
+    margin-right: 10px; /* Espaço à direita */
+    transform: scale(1.2); /* Aumenta ligeiramente */
+}
+
+.form__checkbox-text { /* Texto do checkbox */
+    font-weight: normal; /* Peso normal da fonte */
+}
+
+.form__button { /* Classe para botões do formulário */
+    padding: 12px 25px; /* Espaçamento interno */
+    background: #667eea; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    border: none; /* Remove borda padrão */
+    border-radius: 5px; /* Bordas arredondadas */
+    font-size: 1rem; /* Tamanho da fonte */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: background-color 0.3s; /* Transição suave */
+}
+
+.form__button:hover { /* Estilo quando mouse passa por cima */
+    background: #5a6fd8; /* Cor mais escura */
+}
+
+/* ===== FILTROS ===== */
+.filters { /* Container dos filtros */
+    display: flex; /* Flexbox para alinhar botões */
+    gap: 10px; /* Espaço entre botões */
+    margin-bottom: 20px; /* Espaço abaixo */
+}
+
+.filter-button { /* Classe base para botões de filtro */
+    padding: 8px 16px; /* Espaçamento interno */
+    border: 2px solid #667eea; /* Borda colorida */
+    background: white; /* Fundo branco */
+    color: #667eea; /* Cor do texto */
+    border-radius: 20px; /* Bordas completamente arredondadas */
+    cursor: pointer; /* Cursor de ponteiro */
+    transition: all 0.3s; /* Transição suave */
+}
+
+.filter-button:hover { /* Estilo no hover */
+    background: #667eea; /* Fundo colorido */
+    color: white; /* Texto branco */
+}
+
+.filter-button--active { /* Classe para filtro ativo */
+    background: #667eea; /* Fundo colorido */
+    color: white; /* Texto branco */
+}
+
+/* ===== TABELA ===== */
+.table { /* Classe da tabela */
+    width: 100%; /* Largura total */
+    border-collapse: collapse; /* Remove espaços entre bordas */
+    margin-top: 20px; /* Espaço acima */
+}
+
+.table__header { /* Cabeçalho da tabela */
+    background: #667eea; /* Cor de fundo */
+    color: white; /* Cor do texto */
+}
+
+.table th, .table td { /* Células da tabela */
+    padding: 12px; /* Espaçamento interno */
+    text-align: left; /* Alinhamento à esquerda */
+    border-bottom: 1px solid #e2e8f0; /* Linha inferior */
+}
+
+.table__body tr:hover { /* Linha da tabela no hover */
+    background: #f7fafc; /* Cor de fundo suave */
+}
+
+/* ===== LISTA DE SERVIÇOS ===== */
+.servicos-list { /* Container da lista de serviços */
+    margin-top: 30px; /* Espaço acima */
+    padding: 20px; /* Espaçamento interno */
+    background: #f7fafc; /* Cor de fundo */
+    border-radius: 8px; /* Bordas arredondadas */
+}
+
+.servicos-list__title { /* Título da lista */
+    color: #4a5568; /* Cor do texto */
+    margin-bottom: 15px; /* Espaço abaixo */
+}
+
+.servicos-list__items { /* Lista de itens */
+    list-style: none; /* Remove marcadores padrão */
+}
+
+.servicos-list__items li { /* Itens da lista */
+    padding: 10px; /* Espaçamento interno */
+    margin-bottom: 8px; /* Espaço entre itens */
+    background: white; /* Fundo branco */
+    border-left: 4px solid #667eea; /* Borda lateral colorida */
+    border-radius: 4px; /* Bordas arredondadas */
+}
+
+/* ===== RODAPÉ ===== */
+.footer { /* Classe do rodapé */
+    text-align: center; /* Centraliza texto */
+    margin-top: 40px; /* Espaço acima */
+    padding: 20px; /* Espaçamento interno */
+    color: #718096; /* Cor do texto */
+    border-top: 1px solid #e2e8f0; /* Linha superior */
+}
+
+.footer__text { /* Texto do rodapé */
+    font-size: 0.9rem; /* Tamanho menor da fonte */
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) { /* Media query para tablets e celulares */
+    body {
+        padding: 10px; /* Reduz padding em telas menores */
+    }
+    
+    .header__title {
+        font-size: 2rem; /* Título menor */
+    }
+    
+    .table { /* Tabela em telas pequenas */
+        display: block; /* Muda display para block */
+        overflow-x: auto; /* Adiciona scroll horizontal */
+    }
+    
+    .filters {
+        flex-wrap: wrap; /* Quebra linha se necessário */
+    }
+}
