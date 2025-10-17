@@ -223,3 +223,81 @@ body { /* Estilização do corpo da página */
         flex-wrap: wrap; /* Quebra linha se necessário */
     }
 }
+
+/* 🎯 Estilos COMPLETOS para o modo escuro */
+body.dark-mode {
+    background-color: #1a1a1a;          /* Fundo escuro para toda a página */
+    color: #e0e0e0;                     /* Texto claro para contraste */
+}
+
+/* Estilos para sections no modo escuro */
+body.dark-mode .section {
+    background-color: #2d2d2d;          /* Fundo escuro para as seções */
+    color: #e0e0e0;                     /* Texto claro nas seções */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Sombra mais escura */
+}
+
+/* Títulos das seções no modo escuro */
+body.dark-mode .section__title {
+    color: #ffffff;                     /* Títulos em branco puro */
+    border-bottom-color: #444;          /* Borda inferior mais escura */
+}
+
+/* Formulários no modo escuro */
+body.dark-mode .form__input,
+body.dark-mode .form__select {
+    background-color: #3d3d3d;          /* Fundo escuro nos inputs */
+    color: #ffffff;                     /* Texto branco nos inputs */
+    border-color: #555;                 /* Bordas mais escuras */
+}
+
+/* Tabela no modo escuro */
+body.dark-mode .table {
+    color: #e0e0e0;                     /* Texto claro na tabela */
+}
+
+body.dark-mode .table__header {
+    background: #4a5568;                /* Cabeçalho da tabela mais escuro */
+}
+
+body.dark-mode .table__body tr:hover {
+    background: #3d3d3d;                /* Linhas da tabela com hover escuro */
+}
+
+/* Lista de serviços no modo escuro */
+body.dark-mode .servicos-list {
+    background: #2d2d2d;                /* Fundo escuro para lista de serviços */
+}
+
+/* Rodapé no modo escuro */
+body.dark-mode .footer {
+    color: #a0a0a0;                     /* Texto do rodapé mais suave */
+    border-top-color: #444;              /* Borda superior mais escura */
+}
+
+/* ===== ESTILOS DO BOTÃO MODO ESCURO ===== */
+.btndark {
+    position: absolute;              /* Posiciona absolutamente no header */
+    top: 20px;                       /* 20px do topo */
+    right: 20px;                     /* 20px da direita */
+    padding: 10px;              /* Espaçamento interno melhorado */
+    background-color: #764ba22c ;     /* Cor de fundo do botão */
+    color: white;                  /* Cor do texto */
+    font-size: 0.65rem;               /* Tamanho da fonte */
+    border: none;                    /* Remove borda padrão */
+    border-radius: 7px;              /* Bordas arredondadas */
+    cursor: pointer;                 /* Cursor de mão ao passar por cima */
+    transition: all 0.3s ease;       /* Transição suave para hover */
+}
+
+/* Botão no modo escuro */
+body.dark-mode .btndark {
+    background-color: #764ba22c;          /* Fundo claro no modo escuro */
+    color: white;                     /* Texto escuro no modo escuro */
+}
+
+/* Efeito hover no botão */
+.btndark:hover {
+    transform: scale(1.05);             /* Aumenta levemente ao passar mouse */
+}
+
