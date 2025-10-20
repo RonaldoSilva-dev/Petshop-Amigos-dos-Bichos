@@ -1,40 +1,160 @@
 "use strict";
 // ===== INTERFACES E TIPOS =====
 // ===== VARIÁVEIS GLOBAIS =====
-// Array para armazenar todos os animais cadastrados
-let animais = [];
-// Array para armazenar todos os serviços agendados
-let servicos = [];
-// Contador para gerar IDs únicos
-let nextAnimalId = 1;
-let nextServicoId = 1;
+let animais = []; // Array para armazenar todos os animais cadastrados
+let servicos = []; // Array para armazenar todos os serviços agendados
+// Contadores para geração de IDs únicos
+let nextAnimalId = 1; // Próximo ID interno para animais
+let nextServicoId = 1; // Próximo ID interno para serviços
+let nextIdUnicoAnimal = 1; // Próximo ID visível para animais (sequencial)
+let nextIdUnicoServico = 1; // Próximo ID visível para serviços (sequencial)
 // ===== ELEMENTOS DO DOM =====
 // Obtém referências aos elementos HTML usando seus IDs
-const animalForm = document.getElementById('animal-form');
-const servicoForm = document.getElementById('servico-form');
-const animalList = document.getElementById('animal-list');
-const listaServicos = document.getElementById('lista-servicos');
-const animalSelect = document.getElementById('animal-select');
-// ===== FUNÇÕES PRINCIPAIS =====
-// Função para calcular idade baseada na data de nascimento
+const animalForm = document.getElementById('animal-form'); // Formulário de cadastro de animais
+const servicoForm = document.getElementById('servico-form'); // Formulário de agendamento de serviços
+const animalList = document.getElementById('animal-list'); // Tabela onde os animais são listados
+const listaServicos = document.getElementById('lista-servicos'); // Lista onde os serviços são exibidos
+const animalSelect = document.getElementById('animal-select'); // Select para escolher animal no agendamento
+// Elementos dos cards de estatísticas
+const totalAnimaisElement = document.getElementById('total-animais'); // Elemento do card total de animais
+const totalServicosElement = document.getElementById('total-servicos'); // Elemento do card total de serviços
+const proximosServicosElement = document.getElementById('proximos-servicos'); // Elemento do card próximos serviços
+// Elementos do modo escuro
+const btnDark = document.getElementById('btndark'); // Botão para alternar modo escuro
+const body = document.body; // Elemento body da página
+// Elementos dos botões de filtro
+const filterAll = document.getElementById('filter-all'); // Botão filtro "Todos"
+const filterVacinados = document.getElementById('filter-vacinados'); // Botão filtro "Vacinados"
+const filterNaoVacinados = document.getElementById('filter-nao-vacinados'); // Botão filtro "Não Vacinados"
+// Elemento para notificações toast
+const toast = document.getElementById('toast'); // Elemento para exibir notificações
+// ===== FUNÇÕES UTILITÁRIAS =====
+/**
+ * Formata uma data no formato YYYY-MM-DD para DD/MM/YYYY
+ * @param dataString - Data no formato YYYY-MM-DD
+ * @returns Data formatada como DD/MM/YYYY
+ */
+function formatarData(dataString) {
+    // Divide a string da data em partes (ano, mês, dia)
+    const [year, month, day] = dataString.split('-');
+    // Retorna no formato brasileiro DD/MM/YYYY
+    return `${day}/${month}/${year}`;
+}
+/**
+ * Calcula a idade do animal baseada na data de nascimento
+ * @param dataNascimento - Data de nascimento no formato YYYY-MM-DD
+ * @returns Idade em anos
+ */
 function calcularIdade(dataNascimento) {
-    const nascimento = new Date(dataNascimento); // Converte string para objeto Date
-    const hoje = new Date(); // Data atual
-    // Calcula diferença em anos
+    // Converte a string de data para objeto Date
+    const nascimento = new Date(dataNascimento);
+    // Obtém a data atual
+    const hoje = new Date();
+    // Calcula diferença básica em anos
     let idade = hoje.getFullYear() - nascimento.getFullYear();
-    // Ajusta idade se ainda não fez aniversário este ano
-    const mesAtual = hoje.getMonth();
-    const diaAtual = hoje.getDate();
-    const mesNasc = nascimento.getMonth();
-    const diaNasc = nascimento.getDate();
+    // Obtém informações de mês e dia para ajuste preciso
+    const mesAtual = hoje.getMonth(); // Mês atual (0-11)
+    const diaAtual = hoje.getDate(); // Dia atual
+    const mesNasc = nascimento.getMonth(); // Mês de nascimento
+    const diaNasc = nascimento.getDate(); // Dia de nascimento
+    // Verifica se ainda não fez aniversário este ano
     if (mesAtual < mesNasc || (mesAtual === mesNasc && diaAtual < diaNasc)) {
-        idade--; // Subtrai 1 se ainda não fez aniversário
+        idade--; // Subtrai 1 ano se ainda não fez aniversário
     }
     return idade; // Retorna idade calculada
 }
-// Função para cadastrar novo animal
+/**
+ * Exibe uma notificação toast na tela
+ * @param mensagem - Texto da notificação
+ * @param tipo - Tipo da notificação ('sucesso' ou 'erro')
+ */
+function mostrarToast(mensagem, tipo = 'sucesso') {
+    // Define o texto da notificação
+    toast.textContent = mensagem;
+    // Reseta as classes
+    toast.className = 'toast';
+    // Adiciona classe de erro se necessário
+    if (tipo === 'erro') {
+        toast.classList.add('error');
+    }
+    // Mostra a notificação
+    toast.classList.add('show');
+    // Esconde a notificação após 3 segundos
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+// ===== FUNÇÕES DE PERSISTÊNCIA =====
+/**
+ * Salva todos os dados no localStorage do navegador
+ */
+function salvarDados() {
+    // Converte os arrays e contadores para string e salva no localStorage
+    localStorage.setItem('animais', JSON.stringify(animais));
+    localStorage.setItem('servicos', JSON.stringify(servicos));
+    localStorage.setItem('nextAnimalId', nextAnimalId.toString());
+    localStorage.setItem('nextServicoId', nextServicoId.toString());
+    localStorage.setItem('nextIdUnicoAnimal', nextIdUnicoAnimal.toString());
+    localStorage.setItem('nextIdUnicoServico', nextIdUnicoServico.toString());
+}
+/**
+ * Carrega todos os dados do localStorage do navegador
+ */
+function carregarDados() {
+    // Recupera os dados salvos do localStorage
+    const animaisSalvos = localStorage.getItem('animais');
+    const servicosSalvos = localStorage.getItem('servicos');
+    const nextAnimalIdSalvo = localStorage.getItem('nextAnimalId');
+    const nextServicoIdSalvo = localStorage.getItem('nextServicoId');
+    const nextIdUnicoAnimalSalvo = localStorage.getItem('nextIdUnicoAnimal');
+    const nextIdUnicoServicoSalvo = localStorage.getItem('nextIdUnicoServico');
+    // Se existirem dados salvos, carrega eles
+    if (animaisSalvos) {
+        animais = JSON.parse(animaisSalvos);
+    }
+    if (servicosSalvos) {
+        servicos = JSON.parse(servicosSalvos);
+    }
+    if (nextAnimalIdSalvo) {
+        nextAnimalId = parseInt(nextAnimalIdSalvo);
+    }
+    if (nextServicoIdSalvo) {
+        nextServicoId = parseInt(nextServicoIdSalvo);
+    }
+    if (nextIdUnicoAnimalSalvo) {
+        nextIdUnicoAnimal = parseInt(nextIdUnicoAnimalSalvo);
+    }
+    if (nextIdUnicoServicoSalvo) {
+        nextIdUnicoServico = parseInt(nextIdUnicoServicoSalvo);
+    }
+}
+// ===== FUNÇÕES PRINCIPAIS =====
+/**
+ * Atualiza os cards de estatísticas na página
+ */
+function atualizarEstatisticas() {
+    // Atualiza o número total de animais
+    totalAnimaisElement.textContent = animais.length.toString();
+    // Atualiza o número total de serviços
+    totalServicosElement.textContent = servicos.length.toString();
+    // Calcula serviços nos próximos 7 dias
+    const hoje = new Date(); // Data atual
+    const seteDias = new Date(); // Data de 7 dias no futuro
+    seteDias.setDate(hoje.getDate() + 7); // Adiciona 7 dias
+    // Filtra serviços que estão entre hoje e 7 dias no futuro
+    const proximosServicos = servicos.filter(servico => {
+        const dataServico = new Date(servico.data);
+        return dataServico >= hoje && dataServico <= seteDias;
+    });
+    // Atualiza o card de próximos serviços
+    proximosServicosElement.textContent = proximosServicos.length.toString();
+}
+/**
+ * Processa o cadastro de um novo animal
+ * @param event - Evento de submit do formulário
+ */
 function cadastrarAnimal(event) {
-    event.preventDefault(); // Previne comportamento padrão do formulário
+    event.preventDefault(); // Previne o comportamento padrão do formulário (recarregar página)
     // Obtém valores dos campos do formulário
     const nome = document.getElementById('nome').value;
     const dono = document.getElementById('dono').value;
@@ -42,220 +162,375 @@ function cadastrarAnimal(event) {
     const raca = document.getElementById('raca').value;
     const nascimento = document.getElementById('nascimento').value;
     const vacinado = document.getElementById('vacinado').checked;
-    // Cria novo objeto Animal
+    // Validação de data de nascimento
+    const dataNascimento = new Date(nascimento);
+    const hoje = new Date();
+    // Verifica se a data de nascimento é futura
+    if (dataNascimento > hoje) {
+        mostrarToast('A data de nascimento não pode ser futura!', 'erro');
+        return; // Interrompe a função se a data for inválida
+    }
+    // Valida se todos os campos obrigatórios estão preenchidos
+    if (!nome || !dono || !especie || !raca || !nascimento) {
+        mostrarToast('Por favor, preencha todos os campos obrigatórios.', 'erro');
+        return; // Interrompe a função se campos estiverem vazios
+    }
+    // Cria novo objeto Animal com os dados do formulário
     const novoAnimal = {
-        id: nextAnimalId++, // Atribui ID e incrementa contador
-        nome,
-        dono,
-        especie,
-        raca,
-        nascimento,
-        vacinado
+        id: nextAnimalId++, // Atribui ID interno e incrementa contador
+        idUnico: nextIdUnicoAnimal++, // Atribui ID visível e incrementa contador
+        nome: nome,
+        dono: dono,
+        especie: especie,
+        raca: raca,
+        nascimento: nascimento,
+        vacinado: vacinado
     };
-    // Adiciona animal ao array
+    // Adiciona o novo animal ao array
     animais.push(novoAnimal);
+    // Salva os dados no localStorage
+    salvarDados();
     // Atualiza a interface
     atualizarListaAnimais();
     atualizarSelectAnimais();
+    atualizarEstatisticas();
     // Limpa o formulário
     animalForm.reset();
     // Exibe mensagem de sucesso
-    alert('Animal cadastrado com sucesso!');
+    mostrarToast(`Animal ${novoAnimal.nome} cadastrado com sucesso! ID: #${novoAnimal.idUnico}`);
 }
-// Função para atualizar a lista de animais na tabela
+/**
+ * Atualiza a lista de animais na tabela
+ * @param filtro - Tipo de filtro a ser aplicado ('todos', 'vacinados', 'nao-vacinados')
+ */
 function atualizarListaAnimais(filtro = 'todos') {
-    // Filtra animais baseado no parâmetro
+    // Filtra animais baseado no parâmetro recebido
     const animaisFiltrados = animais.filter(animal => {
         if (filtro === 'vacinados')
-            return animal.vacinado;
+            return animal.vacinado; // Mostra apenas vacinados
         if (filtro === 'nao-vacinados')
-            return !animal.vacinado;
-        return true; // 'todos' - não filtra
+            return !animal.vacinado; // Mostra apenas não vacinados
+        return true; // 'todos' - não aplica filtro
     });
-    // Limpa a tabela
+    // Limpa a tabela antes de preencher
     animalList.innerHTML = '';
-    // Para cada animal, cria uma linha na tabela
+    // Para cada animal filtrado, cria uma linha na tabela
     animaisFiltrados.forEach(animal => {
-        const linha = document.createElement('tr'); // Cria elemento <tr>
-        // Calcula idade
-        const idade = calcularIdade(animal.nascimento);
-        // Preenche a linha com dados do animal
+        const linha = document.createElement('tr'); // Cria elemento <tr> (linha da tabela)
+        const idade = calcularIdade(animal.nascimento); // Calcula idade do animal
+        // Preenche a linha com os dados do animal
         linha.innerHTML = `
-            <td>${animal.nome}</td>
-            <td>${animal.dono}</td>
-            <td>${animal.especie}</td>
-            <td>${animal.raca}</td>
-            <td>${idade} anos</td>
-            <td>${animal.vacinado ? '✅ Sim' : '❌ Não'}</td>
+            <td><strong>#${animal.idUnico}</strong></td> <!-- Coluna ID único -->
+            <td>${animal.nome}</td>                      <!-- Coluna Nome -->
+            <td>${animal.dono}</td>                      <!-- Coluna Dono -->
+            <td>${animal.especie}</td>                   <!-- Coluna Espécie -->
+            <td>${animal.raca}</td>                      <!-- Coluna Raça -->
+            <td>${idade} anos</td>                       <!-- Coluna Idade -->
+            <td>${animal.vacinado ? '✅ Sim' : '❌ Não'}</td> <!-- Coluna Vacinado -->
             <td>
+                <!-- Botão para marcar/desmarcar vacinação -->
                 <button onclick="marcarVacinacao(${animal.id})" class="action-button">
                     ${animal.vacinado ? '❌ Desmarcar Vacina' : '✅ Marcar como Vacinado'}
                 </button>
+                <!-- Botão para remover animal -->
                 <button onclick="removerAnimal(${animal.id})" class="action-button delete-button">
                     🗑️ Remover
                 </button>
             </td>
         `;
-        // Adiciona linha à tabela
+        // Adiciona a linha criada à tabela
         animalList.appendChild(linha);
     });
 }
-// Função para atualizar o select de animais no agendamento
+/**
+ * Atualiza o select de animais no formulário de agendamento
+ */
 function atualizarSelectAnimais() {
-    // Limpa options existentes (exceto a primeira)
+    // Limpa options existentes (mantém apenas a primeira opção padrão)
     while (animalSelect.children.length > 1) {
         animalSelect.removeChild(animalSelect.lastChild);
     }
-    // Adiciona option para cada animal
+    // Adiciona uma nova option para cada animal cadastrado
     animais.forEach(animal => {
         const option = document.createElement('option'); // Cria elemento <option>
-        option.value = animal.id.toString(); // Valor é o ID do animal
-        option.textContent = `${animal.nome} (${animal.dono})`; // Texto visível
-        animalSelect.appendChild(option); // Adiciona ao select
+        option.value = animal.id.toString(); // Valor é o ID interno do animal
+        option.textContent = `#${animal.idUnico} - ${animal.nome} (${animal.dono})`; // Texto visível
+        animalSelect.appendChild(option); // Adiciona o option ao select
     });
 }
-// Função para agendar serviço
-function agendarServico(event) {
-    event.preventDefault(); // Previne comportamento padrão
-    // Obtém valores do formulário
-    const animalId = parseInt(document.getElementById('animal-select').value);
-    const tipo = document.getElementById('servico').value;
-    const data = document.getElementById('data-servico').value;
-    // Valida se animal foi selecionado
-    if (!animalId) {
-        alert('Por favor, selecione um animal.');
-        return;
-    }
-    // Mapeia tipos de serviço para preços
-    const precos = {
-        'Banho': 30,
-        'Tosa': 40,
-        'Vacinação': 60,
-        'Consulta': 50
-    };
-    // Obtém preço do serviço
-    const preco = precos[tipo.split(' - ')[0]] || 0;
-    // Cria novo serviço
-    const novoServico = {
-        id: nextServicoId++,
-        animalId,
-        tipo,
-        data,
-        preco
-    };
-    // Adiciona serviço ao array
-    servicos.push(novoServico);
-    // Atualiza interface
-    atualizarListaServicos();
-    // Limpa formulário
-    servicoForm.reset();
-    // Exibe mensagem de sucesso
-    alert('Serviço agendado com sucesso!');
-}
-// Função para atualizar lista de serviços agendados
-function atualizarListaServicos() {
-    // Limpa lista atual
-    listaServicos.innerHTML = '';
-    // Para cada serviço, cria item na lista
-    servicos.forEach(servico => {
-        // Encontra animal relacionado ao serviço
-        const animal = animais.find(a => a.id === servico.animalId);
-        // Cria elemento <li>
-        const item = document.createElement('li');
-        item.innerHTML = `
-            <strong>${servico.tipo}</strong> - 
-            Animal: ${animal?.nome || 'Não encontrado'} - 
-            Data: ${formatarData(servico.data)} - 
-            Preço: R$ ${servico.preco.toFixed(2)}
-            <button onclick="cancelarServico(${servico.id})" class="delete-button small-button">
-                Cancelar
-            </button>
-        `;
-        // Adiciona à lista
-        listaServicos.appendChild(item);
-    });
-}
-// ===== FUNÇÕES UTILITÁRIAS =====
-// Função para formatar data (DD/MM/YYYY)
-function formatarData(dataString) {
-    const data = new Date(dataString);
-    return data.toLocaleDateString('pt-BR'); // Formato brasileiro
-}
-// Função para marcar/desmarcar vacinação
-function marcarVacinacao(animalId) {
-    // Encontra animal pelo ID
-    const animal = animais.find(a => a.id === animalId);
+/**
+ * Alterna o status de vacinação de um animal
+ * @param id - ID interno do animal
+ */
+function marcarVacinacao(id) {
+    var _a;
+    // Encontra o animal pelo ID interno
+    const animal = animais.find(a => a.id === id);
     if (animal) {
-        // Alterna status de vacinação
+        // Inverte o status de vacinação (true vira false, false vira true)
         animal.vacinado = !animal.vacinado;
-        // Atualiza interface
-        atualizarListaAnimais();
-        // Exibe mensagem
-        const acao = animal.vacinado ? 'marcado' : 'desmarcado';
-        alert(`Vacinação ${acao} para ${animal.nome}`);
+        // Salva a alteração no localStorage
+        salvarDados();
+        // Exibe mensagem de status
+        mostrarToast(`Status de vacinação de ${animal.nome} atualizado para: ${animal.vacinado ? 'Vacinado' : 'Não Vacinado'}.`);
+        // Atualiza a lista para refletir a mudança
+        const filtroAtivo = ((_a = document.querySelector('.filter-button--active')) === null || _a === void 0 ? void 0 : _a.id.replace('filter-', '')) || 'todos';
+        atualizarListaAnimais(filtroAtivo);
+    }
+    else {
+        mostrarToast('Animal não encontrado.', 'erro');
     }
 }
-// Função para remover animal
-function removerAnimal(animalId) {
-    // Confirmação antes de remover
-    if (confirm('Tem certeza que deseja remover este animal?')) {
-        // Filtra array, removendo animal pelo ID
-        animais = animais.filter(animal => animal.id !== animalId);
-        // Remove serviços relacionados
-        servicos = servicos.filter(servico => servico.animalId !== animalId);
-        // Atualiza interfaces
-        atualizarListaAnimais();
-        atualizarListaServicos();
-        atualizarSelectAnimais();
-        alert('Animal removido com sucesso!');
+/**
+ * Remove um animal do sistema
+ * @param id - ID interno do animal a ser removido
+ */
+function removerAnimal(id) {
+    // Encontra o animal pelo ID
+    const animal = animais.find(a => a.id === id);
+    if (!animal)
+        return; // Sai da função se animal não for encontrado
+    // Confirmação para evitar exclusão acidental
+    if (!confirm(`Tem certeza que deseja remover o animal "${animal.nome}" (ID: #${animal.idUnico})?`)) {
+        return; // Sai da função se o usuário cancelar
     }
-}
-// Função para cancelar serviço
-function cancelarServico(servicoId) {
-    // Confirmação antes de cancelar
-    if (confirm('Tem certeza que deseja cancelar este serviço?')) {
-        // Filtra array, removendo serviço pelo ID
-        servicos = servicos.filter(servico => servico.id !== servicoId);
-        // Atualiza interface
-        atualizarListaServicos();
-        alert('Serviço cancelado com sucesso!');
-    }
-}
-// ===== CONFIGURAÇÃO DE EVENT LISTENERS =====
-// Adiciona evento de submit ao formulário de animais
-animalForm.addEventListener('submit', cadastrarAnimal);
-// Adiciona evento de submit ao formulário de serviços
-servicoForm.addEventListener('submit', agendarServico);
-// Adiciona eventos aos botões de filtro
-document.getElementById('filter-all')?.addEventListener('click', () => atualizarListaAnimais('todos'));
-document.getElementById('filter-vacinados')?.addEventListener('click', () => atualizarListaAnimais('vacinados'));
-document.getElementById('filter-nao-vacinados')?.addEventListener('click', () => atualizarListaAnimais('nao-vacinados'));
-// ===== INICIALIZAÇÃO =====
-// Adiciona alguns animais de exemplo ao carregar a página
-function inicializarDadosExemplo() {
-    const animaisExemplo = [
-        {
-            id: nextAnimalId++,
-            nome: 'Rex',
-            dono: 'João Silva',
-            especie: 'Cachorro',
-            raca: 'Labrador',
-            nascimento: '2020-05-15',
-            vacinado: true
-        },
-        {
-            id: nextAnimalId++,
-            nome: 'Mimi',
-            dono: 'Maria Santos',
-            especie: 'Gato',
-            raca: 'Siamês',
-            nascimento: '2021-08-20',
-            vacinado: false
-        }
-    ];
-    animais.push(...animaisExemplo);
+    // Remove o animal do array
+    animais = animais.filter(a => a.id !== id);
+    // Remove também todos os serviços agendados para este animal
+    servicos = servicos.filter(s => s.animalId !== id);
+    // Salva as alterações no localStorage
+    salvarDados();
+    // Exibe mensagem de confirmação
+    mostrarToast(`Animal ${animal.nome} e seus serviços foram removidos.`);
+    // Atualiza todas as listas e estatísticas
     atualizarListaAnimais();
     atualizarSelectAnimais();
+    atualizarListaServicos();
+    atualizarEstatisticas();
 }
-// Executa inicialização quando página carrega
-document.addEventListener('DOMContentLoaded', inicializarDadosExemplo); 
+/**
+ * Processa o agendamento de um novo serviço
+ * @param event - Evento de submit do formulário
+ */
+function agendarServico(event) {
+    event.preventDefault(); // Previne o comportamento padrão do formulário
+    // Obtém valores do formulário de agendamento
+    const animalId = parseInt(document.getElementById('animal-select').value);
+    const tipoSelect = document.getElementById('servico');
+    const tipo = tipoSelect.value;
+    const data = document.getElementById('data-servico').value;
+    // Validação de data do serviço
+    const dataServico = new Date(data);
+    const hoje = new Date();
+    hoje.setHours(0, 0, 0, 0); // Zerar horas para comparar apenas a data
+    // Verifica se a data do serviço é futura
+    if (dataServico <= hoje) {
+        mostrarToast('A data do serviço deve ser futura!', 'erro');
+        return; // Interrompe a função se a data for inválida
+    }
+    // Valida se um animal e serviço foram selecionados
+    if (!animalId || !tipo) {
+        mostrarToast('Por favor, selecione um animal e um tipo de serviço.', 'erro');
+        return; // Interrompe a função se seleção for inválida
+    }
+    // Extrai o preço do texto da option selecionada
+    const optionText = tipoSelect.options[tipoSelect.selectedIndex].textContent || "";
+    const precoMatch = optionText.match(/R\$\s*([\d,]+)/); // Encontra o padrão "R$ XX,XX"
+    const precoString = precoMatch ? precoMatch[1].replace(',', '.') : '0'; // Converte para formato numérico
+    const preco = parseFloat(precoString); // Converte para número
+    // Busca o animal relacionado para validação
+    const animal = animais.find(a => a.id === animalId);
+    if (!animal) {
+        mostrarToast('Animal selecionado não encontrado.', 'erro');
+        return; // Interrompe a função se animal não for encontrado
+    }
+    // Cria novo objeto Servico
+    const novoServico = {
+        id: nextServicoId++, // Atribui ID interno e incrementa contador
+        idUnico: nextIdUnicoServico++, // Atribui ID visível e incrementa contador
+        animalId: animalId,
+        tipo: tipo,
+        data: data,
+        preco: preco
+    };
+    // Adiciona o novo serviço ao array
+    servicos.push(novoServico);
+    // Salva os dados no localStorage
+    salvarDados();
+    // Atualiza a interface
+    atualizarListaServicos();
+    atualizarEstatisticas();
+    // Limpa o formulário
+    servicoForm.reset();
+    // Exibe mensagem de sucesso
+    mostrarToast(`Serviço de ${tipo} agendado para ${animal.nome} em ${formatarData(data)}. Valor: R$ ${preco.toFixed(2).replace('.', ',')}. ID: #${novoServico.idUnico}`);
+}
+/**
+ * Atualiza a lista de serviços agendados
+ */
+function atualizarListaServicos() {
+    // Limpa a lista antes de preencher
+    listaServicos.innerHTML = '';
+    // Ordena os serviços pela data mais próxima
+    const servicosOrdenados = servicos.sort((a, b) => new Date(a.data).getTime() - new Date(b.data).getTime());
+    // Se não há serviços, exibe mensagem
+    if (servicosOrdenados.length === 0) {
+        const li = document.createElement('li');
+        li.textContent = 'Nenhum serviço agendado.';
+        listaServicos.appendChild(li);
+        return; // Sai da função
+    }
+    // Para cada serviço, cria um item na lista
+    servicosOrdenados.forEach(servico => {
+        const li = document.createElement('li'); // Cria elemento <li> (item da lista)
+        // Encontra o animal relacionado para obter o nome e dono
+        const animal = animais.find(a => a.id === servico.animalId);
+        const nomeAnimal = animal ? animal.nome : 'Animal Desconhecido'; // Fallback se animal foi removido
+        const nomeDono = animal ? animal.dono : 'Dono Desconhecido';
+        // Preenche o item da lista com os dados do serviço
+        li.innerHTML = `
+            <div>
+                <strong>#${servico.idUnico}</strong> - 
+                <strong>${servico.tipo}</strong> para 
+                ${nomeAnimal} (Dono: ${nomeDono}) em 
+                ${formatarData(servico.data)} - R$ ${servico.preco.toFixed(2).replace('.', ',')}
+            </div>
+            <!-- Botão para remover serviço -->
+            <button onclick="removerServico(${servico.id})" class="action-button delete-button remove-servico-btn">❌</button>
+        `;
+        // Adiciona o item à lista
+        listaServicos.appendChild(li);
+    });
+}
+/**
+ * Remove um serviço agendado
+ * @param id - ID interno do serviço a ser removido
+ */
+function removerServico(id) {
+    // Encontra o serviço pelo ID
+    const servico = servicos.find(s => s.id === id);
+    if (!servico)
+        return; // Sai da função se serviço não for encontrado
+    // Confirmação para evitar exclusão acidental
+    if (!confirm(`Tem certeza que deseja remover o agendamento #${servico.idUnico} (${servico.tipo})?`)) {
+        return; // Sai da função se o usuário cancelar
+    }
+    // Remove o serviço do array
+    servicos = servicos.filter(s => s.id !== id);
+    // Salva as alterações no localStorage
+    salvarDados();
+    // Exibe mensagem de confirmação
+    mostrarToast(`Serviço #${servico.idUnico} removido.`);
+    // Atualiza as listas
+    atualizarListaServicos();
+    atualizarEstatisticas();
+}
+// ===== FUNÇÕES DE CONTROLE =====
+/**
+ * Alterna entre modo escuro e modo claro
+ */
+function toggleDarkMode() {
+    // Alterna a classe 'dark-mode' no <body>
+    body.classList.toggle('dark-mode');
+    // Armazena a preferência no Local Storage
+    const isDarkMode = body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode.toString());
+    // Atualiza o texto do botão
+    btnDark.textContent = isDarkMode ? '☀️ Modo claro' : '🌙 Modo escuro';
+}
+/**
+ * Carrega a preferência do modo escuro do localStorage
+ */
+function loadDarkModePreference() {
+    // Recupera a preferência salva
+    const darkModeEnabled = localStorage.getItem('darkMode');
+    // Se a preferência for 'true' ou se não houver preferência e o sistema operacional for escuro
+    if (darkModeEnabled === 'true' || (darkModeEnabled === null && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        body.classList.add('dark-mode');
+        btnDark.textContent = '☀️ Modo claro';
+    }
+    else {
+        btnDark.textContent = '🌙 Modo escuro';
+    }
+}
+/**
+ * Manipula o clique nos botões de filtro
+ * @param event - Evento de clique
+ */
+function handleFilterClick(event) {
+    const target = event.target;
+    // Verifica se o clique foi em um botão de filtro
+    if (target.classList.contains('filter-button')) {
+        // Remove a classe ativa de todos os botões
+        document.querySelectorAll('.filter-button').forEach(btn => {
+            btn.classList.remove('filter-button--active');
+        });
+        // Adiciona a classe ativa ao botão clicado
+        target.classList.add('filter-button--active');
+        // Extrai o tipo de filtro do ID do botão
+        const filterType = target.id.replace('filter-', '');
+        // Atualiza a lista com o filtro selecionado
+        atualizarListaAnimais(filterType);
+    }
+}
+// ===== VALIDAÇÃO DE FORMULÁRIOS EM TEMPO REAL =====
+/**
+ * Configura a validação em tempo real dos formulários
+ */
+function setupFormValidation() {
+    // Validação de data de nascimento
+    const nascimentoInput = document.getElementById('nascimento');
+    nascimentoInput.addEventListener('change', function () {
+        const dataNascimento = new Date(this.value);
+        const hoje = new Date();
+        // Adiciona classes CSS para feedback visual
+        if (dataNascimento > hoje) {
+            this.classList.add('invalid');
+            this.classList.remove('valid');
+        }
+        else {
+            this.classList.remove('invalid');
+            this.classList.add('valid');
+        }
+    });
+    // Validação de data de serviço
+    const dataServicoInput = document.getElementById('data-servico');
+    dataServicoInput.addEventListener('change', function () {
+        const dataServico = new Date(this.value);
+        const hoje = new Date();
+        hoje.setHours(0, 0, 0, 0); // Zerar horas para comparar apenas a data
+        // Adiciona classes CSS para feedback visual
+        if (dataServico <= hoje) {
+            this.classList.add('invalid');
+            this.classList.remove('valid');
+        }
+        else {
+            this.classList.remove('invalid');
+            this.classList.add('valid');
+        }
+    });
+}
+// ===== ASSOCIAÇÃO DE EVENTOS E INICIALIZAÇÃO =====
+// Associa eventos aos formulários
+animalForm.addEventListener('submit', cadastrarAnimal); // Formulário de cadastro de animais
+servicoForm.addEventListener('submit', agendarServico); // Formulário de agendamento de serviços
+// Associa eventos aos botões de filtro
+filterAll.addEventListener('click', handleFilterClick);
+filterVacinados.addEventListener('click', handleFilterClick);
+filterNaoVacinados.addEventListener('click', handleFilterClick);
+// Associa evento ao botão de modo escuro
+btnDark.addEventListener('click', toggleDarkMode);
+// Inicializa a aplicação quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', () => {
+    // Carrega preferências salvas
+    loadDarkModePreference();
+    // Configura validação de formulários
+    setupFormValidation();
+    // Carrega dados do localStorage
+    carregarDados();
+    // Atualiza todas as interfaces
+    atualizarListaAnimais();
+    atualizarSelectAnimais();
+    atualizarListaServicos();
+    atualizarEstatisticas();
+});
