@@ -59,6 +59,10 @@ const filterNaoVacinados = document.getElementById('filter-nao-vacinados') as HT
 // Elemento para notificações toast
 const toast = document.getElementById('toast') as HTMLElement;                          // Elemento para exibir notificações
 
+// NOVOS ELEMENTOS: Navegação por abas
+const navButtons = document.querySelectorAll('.nav-button');                            // Todos os botões do menu de navegação
+const contentSections = document.querySelectorAll('.content-section');                  // Todas as seções de conteúdo
+
 // ===== FUNÇÕES UTILITÁRIAS =====
 
 /**
@@ -174,6 +178,58 @@ function carregarDados(): void {
     }
 }
 
+// ===== FUNÇÕES DE NAVEGAÇÃO POR ABAS =====
+
+/**
+ * Alterna entre as seções de conteúdo baseado no botão clicado
+ * @param targetSectionId - ID da seção que deve ser mostrada
+ */
+function mostrarSecao(targetSectionId: string): void {
+    // Remove a classe active de todas as seções
+    contentSections.forEach(section => {
+        section.classList.remove('active'); // Oculta todas as seções
+    });
+    
+    // Remove a classe active de todos os botões
+    navButtons.forEach(button => {
+        button.classList.remove('nav-button--active'); // Remove destaque de todos os botões
+    });
+    
+    // Adiciona a classe active à seção alvo
+    const targetSection = document.getElementById(targetSectionId); // Encontra a seção pelo ID
+    if (targetSection) {
+        targetSection.classList.add('active'); // Mostra a seção
+    }
+    
+    // Adiciona a classe active ao botão correspondente
+    const activeButton = document.querySelector(`[data-target="${targetSectionId}"]`); // Encontra o botão pelo data-target
+    if (activeButton) {
+        activeButton.classList.add('nav-button--active'); // Destaca o botão
+    }
+    
+    // Atualiza listas específicas quando certas seções são abertas
+    if (targetSectionId === 'lista-section') {
+        atualizarListaAnimais(); // Atualiza a lista de animais quando a seção é aberta
+    } else if (targetSectionId === 'servicos-section') {
+        atualizarListaServicos(); // Atualiza a lista de serviços quando a seção é aberta
+    }
+}
+
+/**
+ * Configura os event listeners para os botões de navegação
+ */
+function setupNavegacao(): void {
+    // Adiciona event listener para cada botão do menu
+    navButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const targetSection = this.getAttribute('data-target'); // Obtém o ID da seção alvo
+            if (targetSection) {
+                mostrarSecao(targetSection); // Mostra a seção correspondente
+            }
+        });
+    });
+}
+
 // ===== FUNÇÕES PRINCIPAIS =====
 
 /**
@@ -259,6 +315,11 @@ function cadastrarAnimal(event: Event): void {
     
     // Exibe mensagem de sucesso
     mostrarToast(`Animal ${novoAnimal.nome} cadastrado com sucesso! ID: #${novoAnimal.idUnico}`);
+    
+    // Opcional: Mudar para a seção de animais cadastrados após cadastro
+    setTimeout(() => {
+        mostrarSecao('lista-section'); // Mostra a lista de animais após cadastro
+    }, 1000);
 }
 
 /**
@@ -451,6 +512,11 @@ function agendarServico(event: Event): void {
     
     // Exibe mensagem de sucesso
     mostrarToast(`Serviço de ${tipo} agendado para ${animal.nome} em ${formatarData(data)}. Valor: R$ ${preco.toFixed(2).replace('.', ',')}. ID: #${novoServico.idUnico}`);
+    
+    // Opcional: Mudar para a seção de serviços agendados após agendamento
+    setTimeout(() => {
+        mostrarSecao('servicos-section'); // Mostra a lista de serviços após agendamento
+    }, 1000);
 }
 
 /**
@@ -643,12 +709,15 @@ document.addEventListener('DOMContentLoaded', () => {
     loadDarkModePreference();
     // Configura validação de formulários
     setupFormValidation();
+    // Configura navegação por abas
+    setupNavegacao();
     // Carrega dados do localStorage
     carregarDados();
     
     // Atualiza todas as interfaces
-    atualizarListaAnimais();
     atualizarSelectAnimais();
-    atualizarListaServicos();
     atualizarEstatisticas();
+    
+    // Garante que a seção de cadastro esteja ativa por padrão
+    mostrarSecao('cadastro-section');
 });
