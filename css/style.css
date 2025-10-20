@@ -642,19 +642,40 @@ body.dark-mode {
 }
 
 /* ===== RODAPÉ ===== */
-.footer {
-    /* Classe do rodapé */
-    text-align: center;
-    /* Centraliza texto */
-    margin-top: 40px;
-    /* Espaço acima */
-    padding: 20px;
-    /* Espaçamento interno */
-    color: #718096;
-    /* Cor do texto */
-    border-top: 1px solid #e2e8f0;
-    /* Linha superior */
-}
+ .footer {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
 
 .footer__text {
     /* Texto do rodapé */
