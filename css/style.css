@@ -17,12 +17,88 @@ body {
     /* Altura da linha para melhor legibilidade */
     color: #333;
     /* Cor do texto principal */
+    
+    /* ===== CONFIGURAÇÃO DA IMAGEM DE FUNDO ===== */
+    background-image: url('https://pps.whatsapp.net/v/t61.24694-24/564276672_762732726742922_1164822278849043881_n.jpg?ccb=11-4&oh=01_Q5Aa2wHE-2GMErIVj2sFDch7c-COTSDnK8IieT8wpyxqTIn2Tw&oe=69026802&_nc_sid=5e03e0&_nc_cat=101');
+    /* Define a imagem de fundo - URL da imagem */
+    
+    background-size: cover;
+    /* ⭐ CORREÇÃO: Faz a imagem cobrir TODA a área do body */
+    /* 'cover' ajusta a imagem para preencher todo o container */
+    
+    background-repeat: no-repeat;
+    /* ⭐ CORREÇÃO: Impede que a imagem se repita */
+    /* Garante que a imagem apareça apenas uma vez */
+    
+    background-position: center center;
+    /* ⭐ NOVO: Centraliza a imagem no body */
+    /* Posiciona a imagem no centro horizontal e vertical */
+    
+    background-attachment: fixed;
+    /* ⭐ NOVO: Fixa a imagem para não rolar com a página */
+    /* A imagem fica parada enquanto o conteúdo rola */
+    
     background-color: #f4f4f4;
-    /* Cor de fundo da página */
+    /* ⭐ COR DE FALLBACK: Caso a imagem não carregue */
+    /* Será usada se a imagem estiver quebrada ou não carregar */
+    
+    min-height: 100vh;
+    /* ⭐ NOVO: Garante que o body ocupe pelo menos a altura da tela */
+    /* 100vh = 100% da altura da viewport (tela visível) */
+    
     padding: 20px;
-    /* Espaçamento interno */
+    /* Espaçamento interno para o conteúdo */
+    
     transition: background-color 0.3s, color 0.3s;
     /* Transição suave para modo escuro */
+}
+
+/* ===== OVERLAY PARA MELHOR LEGIBILIDADE ===== */
+body::before {
+    content: '';
+    /* ⭐ Necessário para pseudo-elementos - cria um elemento vazio */
+    position: fixed;
+    /* ⭐ Fixa o overlay na tela (não rola com o conteúdo) */
+    top: 0;
+    /* ⭐ Começa do topo da tela */
+    left: 0;
+    /* ⭐ Começa da esquerda da tela */
+    right: 0;
+    /* ⭐ Vai até a direita da tela */
+    bottom: 0;
+    /* ⭐ Vai até o fundo da tela */
+    background: #764ba200;
+    /* ⭐ Overlay branco semi-transparente para melhor contraste */
+    /* rgba(255,255,255,0.7) = branco com 70% de opacidade */
+    z-index: -1;
+    /* ⭐ Coloca o overlay ATRÁS do conteúdo */
+    /* z-index negativo faz ele ficar abaixo dos outros elementos */
+    pointer-events: none;
+    /* ⭐ Permite cliques "atravessarem" o overlay */
+    /* O usuário pode clicar nos elementos normalmente */
+}
+
+/* ===== GARANTIR QUE O CONTEÚDO FIQUE ACIMA DO OVERLAY ===== */
+.header,
+.main,
+.footer {
+    position: relative;
+    /* ⭐ Permite que esses elementos usem z-index */
+    z-index: 1;
+    /* ⭐ Coloca o conteúdo ACIMA do overlay */
+    /* z-index maior que -1 fica na frente */
+}
+
+/* ===== MELHORIAS PARA O MODO ESCURO ===== */
+body.dark-mode::before {
+    background: rgba(0, 0, 0, 0.6);
+    /* ⭐ Overlay mais escuro no modo escuro */
+    /* Preto com 60% de opacidade para melhor contraste */
+}
+
+body.dark-mode {
+    color: #e0e0e0;
+    /* ⭐ Cor do texto mais clara para contraste no modo escuro */
 }
 
 /* ===== HEADER ===== */
