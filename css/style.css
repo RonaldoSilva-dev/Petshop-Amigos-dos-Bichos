@@ -1,225 +1,1082 @@
 /* ===== RESET E CONFIGURAÇÕES GERAIS ===== */
-* { /* Seletor universal - aplica a todos os elementos */
-    margin: 0; /* Remove margens padrão */
-    padding: 0; /* Remove paddings padrão */
-    box-sizing: border-box; /* Inclui padding e border no cálculo do width/height */
+* {
+    /* Seletor universal - aplica a todos os elementos */
+    margin: 0;
+    /* Remove margens padrão */
+    padding: 0;
+    /* Remove paddings padrão */
+    box-sizing: border-box;
+    /* Inclui padding e border no cálculo do width/height */
 }
 
-body { /* Estilização do corpo da página */
-    font-family: 'Arial', sans-serif; /* Define fonte padrão */
-    line-height: 1.6; /* Altura da linha para melhor legibilidade */
-    color: #333; /* Cor do texto principal */
-    background-color: #f4f4f4; /* Cor de fundo da página */
-    padding: 20px; /* Espaçamento interno */
+body {
+    /* Estilização do corpo da página */
+    font-family: 'Arial', sans-serif;
+    /* Define fonte padrão */
+    line-height: 1.6;
+    /* Altura da linha para melhor legibilidade */
+    color: #333;
+    /* Cor do texto principal */
+    background-color: #f4f4f4;
+    /* Cor de fundo da página */
+    padding: 20px;
+    /* Espaçamento interno */
+    transition: background-color 0.3s, color 0.3s;
+    /* Transição suave para modo escuro */
 }
 
 /* ===== HEADER ===== */
-.header { /* Classe do cabeçalho */
-    text-align: center; /* Centraliza o texto */
-    margin-bottom: 30px; /* Espaço abaixo do header */
-    padding: 20px; /* Espaçamento interno */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradiente de fundo */
-    color: white; /* Cor do texto */
-    border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombra suave */
+.header {
+    /* Classe do cabeçalho */
+    text-align: center;
+    /* Centraliza o texto */
+    margin-bottom: 30px;
+    /* Espaço abaixo do header */
+    padding: 20px;
+    /* Espaçamento interno */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Gradiente de fundo */
+    color: white;
+    /* Cor do texto */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.144);
+    /* Sombra suave */
+    position: relative;
+    /* Permite posicionamento absoluto de elementos filhos */
 }
 
-.header__title { /* Classe do título principal */
-    font-size: 2.5rem; /* Tamanho da fonte */
-    margin-bottom: 10px; /* Espaço abaixo do título */
+.header__title {
+    /* Classe do título principal */
+    font-size: 2.5rem;
+    /* Tamanho da fonte */
+    margin-bottom: 10px;
+    /* Espaço abaixo do título */
 }
 
-.header__subtitle { /* Classe do subtítulo */
-    font-size: 1.2rem; /* Tamanho da fonte */
-    opacity: 0.9; /* Leve transparência */
+.header__subtitle {
+    /* Classe do subtítulo */
+    font-size: 1.2rem;
+    /* Tamanho da fonte */
+    opacity: 0.9;
+    /* Leve transparência */
 }
 
 /* ===== LAYOUT PRINCIPAL ===== */
-.main { /* Classe do conteúdo principal */
-    max-width: 1200px; /* Largura máxima */
-    margin: 0 auto; /* Centraliza na página */
+.main {
+    /* Classe do conteúdo principal */
+    max-width: 1600px;
+    /* Largura máxima aumentada para acomodar sidebars */
+    margin: 0 auto;
+    /* Centraliza na página */
 }
 
-.section { /* Classe para cada seção */
-    background: white; /* Fundo branco */
-    margin-bottom: 30px; /* Espaço entre seções */
-    padding: 25px; /* Espaçamento interno */
-    border-radius: 10px; /* Bordas arredondadas */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Sombra suave */
+/* NOVO: Container principal com layout flex para 3 colunas */
+.main-content {
+    display: flex;
+    /* Usa flexbox para layout lado a lado */
+    gap: 25px;
+    /* Espaço entre as colunas */
+    align-items: flex-start;
+    /* Alinha itens no topo */
 }
 
-.section__title { /* Classe para títulos das seções */
-    color: #4a5568; /* Cor do texto */
-    margin-bottom: 20px; /* Espaço abaixo do título */
-    font-size: 1.5rem; /* Tamanho da fonte */
-    border-bottom: 2px solid #e2e8f0; /* Linha inferior */
-    padding-bottom: 10px; /* Espaço acima da linha */
+/* NOVO: Sidebar esquerda para menu e 1 card */
+.stats-sidebar-left {
+    width: 200px;
+    /* Largura fixa para a sidebar esquerda */
+    flex-shrink: 0;
+    /* Impede que a sidebar encolha */
+}
+
+/* NOVO: Sidebar direita para 2 cards */
+.stats-sidebar-right {
+    width: 200px;
+    /* Largura fixa para a sidebar direita */
+    flex-shrink: 0;
+    /* Impede que a sidebar encolha */
+}
+
+/* NOVO: Conteúdo principal (formulários e tabelas) - CENTRO */
+.content-main {
+    flex: 1;
+    /* Ocupa todo o espaço restante entre as sidebars */
+    min-width: 0;
+    /* Permite que o conteúdo principal quebre linha se necessário */
+    position: relative;
+    /* Para posicionamento dos elementos filhos */
+}
+
+/* ===== MENU DE NAVEGAÇÃO ===== */
+.nav-menu {
+    /* Container do menu de navegação */
+    background: white;
+    /* Fundo branco */
+    padding: 10px;
+    /* Espaçamento interno */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    margin-bottom: 15px;
+    /* Espaço abaixo do menu */
+    transition: background-color 0.3s;
+    /* Transição suave para modo escuro */
+}
+
+.nav-menu__title {
+    /* Título do menu */
+    color: #4a5568;
+    /* Cor do texto */
+    margin-bottom: 15px;
+    /* Espaço abaixo do título */
+    font-size: 1.1rem;
+    /* Tamanho da fonte */
+    border-bottom: 2px solid #e2e8f0;
+    /* Linha inferior */
+    padding-bottom: 10px;
+    /* Espaço acima da linha */
+    text-align: center;
+    /* Centraliza o texto */
+}
+
+.nav-button {
+    /* Classe base para botões do menu */
+    display: block;
+    /* Ocupa toda a largura disponível */
+    width: 100%;
+    /* Largura total */
+    padding: 12px 15px;
+    /* Espaçamento interno */
+    margin-bottom: 10px;
+    /* Espaço entre botões */
+    background: #f7fafc;
+    /* Cor de fundo clara */
+    color: #4a5568;
+    /* Cor do texto */
+    border: 2px solid #e2e8f0;
+    /* Borda sutil */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    font-size: 0.95rem;
+    /* Tamanho da fonte */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    transition: all 0.3s ease;
+    /* Transição suave */
+    text-align: left;
+    /* Alinha texto à esquerda */
+}
+
+.nav-button:hover {
+    /* Estilo no hover */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
+    border-color: #667eea;
+    /* Borda colorida */
+    transform: translateX(5px);
+    /* Efeito de deslocamento */
+}
+
+.nav-button--active {
+    /* Classe para botão ativo */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
+    border-color: #667eea;
+    /* Borda colorida */
+    font-weight: bold;
+    /* Texto em negrito */
+}
+
+/* ===== SEÇÕES DE CONTEÚDO ===== */
+.content-section {
+    /* Classe base para todas as seções de conteúdo */
+    display: none;
+    /* Oculta todas as seções por padrão */
+    opacity: 0;
+    /* Transparência total */
+    transform: translateY(20px);
+    /* Posiciona ligeiramente abaixo */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Transição suave */
+}
+
+.content-section.active {
+    /* Classe para seção ativa (visível) */
+    display: block;
+    /* Mostra a seção */
+    opacity: 1;
+    /* Transparência total */
+    transform: translateY(0);
+    /* Posição normal */
+    animation: fadeInUp 0.5s ease;
+    /* Animação de entrada */
+}
+
+@keyframes fadeInUp {
+    /* Animação para aparecer subindo */
+    from {
+        opacity: 0;
+        /* Inicia transparente */
+        transform: translateY(20px);
+        /* Inicia abaixo */
+    }
+    to {
+        opacity: 1;
+        /* Termina visível */
+        transform: translateY(0);
+        /* Termina na posição normal */
+    }
+}
+
+.section {
+    /* Classe para cada seção */
+    background: white;
+    /* Fundo branco */
+    margin-bottom: 30px;
+    /* Espaço entre seções */
+    padding: 25px;
+    /* Espaçamento interno */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    transition: background-color 0.3s, color 0.3s;
+    /* Transição suave para modo escuro */
+}
+
+.section__title {
+    /* Classe para títulos das seções */
+    color: #4a5568;
+    /* Cor do texto */
+    margin-bottom: 20px;
+    /* Espaço abaixo do título */
+    font-size: 1.5rem;
+    /* Tamanho da fonte */
+    border-bottom: 2px solid #e2e8f0;
+    /* Linha inferior */
+    padding-bottom: 10px;
+    /* Espaço acima da linha */
 }
 
 /* ===== FORMULÁRIOS ===== */
-.form { /* Classe base para formulários */
-    display: flex; /* Usa flexbox para layout */
-    flex-direction: column; /* Organiza itens em coluna */
-    gap: 15px; /* Espaço entre os elementos */
+.form {
+    /* Classe base para formulários */
+    display: flex;
+    /* Usa flexbox para layout */
+    flex-direction: column;
+    /* Organiza itens em coluna */
+    gap: 15px;
+    /* Espaço entre os elementos */
 }
 
-.form__group { /* Classe para grupo de campos */
-    display: flex; /* Flexbox para alinhamento */
-    flex-direction: column; /* Organiza em coluna */
+.form__group {
+    /* Classe para grupo de campos */
+    display: flex;
+    /* Flexbox para alinhamento */
+    flex-direction: column;
+    /* Organiza em coluna */
 }
 
-.form__label { /* Classe para labels */
-    margin-bottom: 5px; /* Espaço abaixo do label */
-    font-weight: bold; /* Texto em negrito */
-    color: #4a5568; /* Cor do texto */
+.form__label {
+    /* Classe para labels */
+    margin-bottom: 5px;
+    /* Espaço abaixo do label */
+    font-weight: bold;
+    /* Texto em negrito */
+    color: #4a5568;
+    /* Cor do texto */
 }
 
-.form__input, .form__select { /* Classes para inputs e selects */
-    padding: 10px; /* Espaçamento interno */
-    border: 2px solid #e2e8f0; /* Borda padrão */
-    border-radius: 5px; /* Bordas arredondadas */
-    font-size: 1rem; /* Tamanho da fonte */
-    transition: border-color 0.3s; /* Transição suave para hover/focus */
+.form__input,
+.form__select {
+    /* Classes para inputs e selects */
+    padding: 10px;
+    /* Espaçamento interno */
+    border: 2px solid #e2e8f0;
+    /* Borda padrão */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    font-size: 1rem;
+    /* Tamanho da fonte */
+    transition: border-color 0.3s;
+    /* Transição suave para hover/focus */
 }
 
-.form__input:focus, .form__select:focus { /* Estilo quando elemento está focado */
-    outline: none; /* Remove contorno padrão */
-    border-color: #667eea; /* Muda cor da borda */
+.form__input:focus,
+.form__select:focus {
+    /* Estilo quando elemento está focado */
+    outline: none;
+    /* Remove contorno padrão */
+    border-color: #667eea;
+    /* Muda cor da borda */
 }
 
-.form__checkbox-label { /* Label personalizada para checkbox */
-    display: flex; /* Flexbox para alinhamento */
-    align-items: center; /* Centraliza verticalmente */
-    cursor: pointer; /* Cursor de ponteiro */
+.form__checkbox-label {
+    /* Label personalizada para checkbox */
+    display: flex;
+    /* Flexbox para alinhamento */
+    align-items: center;
+    /* Centraliza verticalmente */
+    cursor: pointer;
+    /* Cursor de ponteiro */
 }
 
-.form__checkbox { /* Checkbox personalizado */
-    margin-right: 10px; /* Espaço à direita */
-    transform: scale(1.2); /* Aumenta ligeiramente */
+.form__checkbox {
+    /* Checkbox personalizado */
+    margin-right: 10px;
+    /* Espaço à direita */
+    transform: scale(1.2);
+    /* Aumenta ligeiramente */
 }
 
-.form__checkbox-text { /* Texto do checkbox */
-    font-weight: normal; /* Peso normal da fonte */
+.form__checkbox-text {
+    /* Texto do checkbox */
+    font-weight: normal;
+    /* Peso normal da fonte */
 }
 
-.form__button { /* Classe para botões do formulário */
-    padding: 12px 25px; /* Espaçamento interno */
-    background: #667eea; /* Cor de fundo */
-    color: white; /* Cor do texto */
-    border: none; /* Remove borda padrão */
-    border-radius: 5px; /* Bordas arredondadas */
-    font-size: 1rem; /* Tamanho da fonte */
-    cursor: pointer; /* Cursor de ponteiro */
-    transition: background-color 0.3s; /* Transição suave */
+.form__button {
+    /* Classe para botões do formulário */
+    padding: 12px 25px;
+    /* Espaçamento interno */
+    background: #667eea;
+    /* Cor de fundo */
+    color: white;
+    /* Cor do texto */
+    border: none;
+    /* Remove borda padrão */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    font-size: 1rem;
+    /* Tamanho da fonte */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    transition: background-color 0.3s;
+    /* Transição suave */
 }
 
-.form__button:hover { /* Estilo quando mouse passa por cima */
-    background: #5a6fd8; /* Cor mais escura */
+.form__button:hover {
+    /* Estilo quando mouse passa por cima */
+    background: #5a6fd8;
+    /* Cor mais escura */
+}
+
+/* ===== DICA DE FORMULÁRIO ===== */
+.form__hint {
+    /* Classe para dicas de formulário */
+    font-size: 0.8rem;
+    /* Tamanho menor da fonte */
+    color: #718096;
+    /* Cor cinza suave */
+    margin-top: 5px;
+    /* Espaço acima */
 }
 
 /* ===== FILTROS ===== */
-.filters { /* Container dos filtros */
-    display: flex; /* Flexbox para alinhar botões */
-    gap: 10px; /* Espaço entre botões */
-    margin-bottom: 20px; /* Espaço abaixo */
+.filters {
+    /* Container dos filtros */
+    display: flex;
+    /* Flexbox para alinhar botões */
+    gap: 10px;
+    /* Espaço entre botões */
+    margin-bottom: 20px;
+    /* Espaço abaixo */
 }
 
-.filter-button { /* Classe base para botões de filtro */
-    padding: 8px 16px; /* Espaçamento interno */
-    border: 2px solid #667eea; /* Borda colorida */
-    background: white; /* Fundo branco */
-    color: #667eea; /* Cor do texto */
-    border-radius: 20px; /* Bordas completamente arredondadas */
-    cursor: pointer; /* Cursor de ponteiro */
-    transition: all 0.3s; /* Transição suave */
+.filter-button {
+    /* Classe base para botões de filtro */
+    padding: 8px 16px;
+    /* Espaçamento interno */
+    border: 2px solid #667eea;
+    /* Borda colorida */
+    background: white;
+    /* Fundo branco */
+    color: #667eea;
+    /* Cor do texto */
+    border-radius: 20px;
+    /* Bordas completamente arredondadas */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    transition: all 0.3s;
+    /* Transição suave */
 }
 
-.filter-button:hover { /* Estilo no hover */
-    background: #667eea; /* Fundo colorido */
-    color: white; /* Texto branco */
+.filter-button:hover {
+    /* Estilo no hover */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
 }
 
-.filter-button--active { /* Classe para filtro ativo */
-    background: #667eea; /* Fundo colorido */
-    color: white; /* Texto branco */
+.filter-button--active {
+    /* Classe para filtro ativo */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
 }
 
 /* ===== TABELA ===== */
-.table { /* Classe da tabela */
-    width: 100%; /* Largura total */
-    border-collapse: collapse; /* Remove espaços entre bordas */
-    margin-top: 20px; /* Espaço acima */
+.table {
+    /* Classe da tabela */
+    width: 100%;
+    /* Largura total */
+    border-collapse: collapse;
+    /* Remove espaços entre bordas */
+    margin-top: 20px;
+    /* Espaço acima */
 }
 
-.table__header { /* Cabeçalho da tabela */
-    background: #667eea; /* Cor de fundo */
-    color: white; /* Cor do texto */
+.table__header {
+    /* Cabeçalho da tabela */
+    background: #667eea;
+    /* Cor de fundo */
+    color: white;
+    /* Cor do texto */
 }
 
-.table th, .table td { /* Células da tabela */
-    padding: 12px; /* Espaçamento interno */
-    text-align: left; /* Alinhamento à esquerda */
-    border-bottom: 1px solid #e2e8f0; /* Linha inferior */
+.table th,
+.table td {
+    /* Células da tabela */
+    padding: 12px;
+    /* Espaçamento interno */
+    text-align: left;
+    /* Alinhamento à esquerda */
+    border-bottom: 1px solid #e2e8f0;
+    /* Linha inferior */
 }
 
-.table__body tr:hover { /* Linha da tabela no hover */
-    background: #f7fafc; /* Cor de fundo suave */
+.table__body tr:hover {
+    /* Linha da tabela no hover */
+    background: #f7fafc;
+    /* Cor de fundo suave */
+}
+
+/* ===== BOTÕES DE AÇÃO ===== */
+.action-button {
+    /* Classe base para botões de ação */
+    padding: 6px 12px;
+    /* Espaçamento interno */
+    margin: 2px;
+    /* Margem entre botões */
+    border: none;
+    /* Remove borda padrão */
+    border-radius: 4px;
+    /* Bordas arredondadas */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    font-size: 0.85rem;
+    /* Tamanho menor da fonte */
+    transition: all 0.2s;
+    /* Transição suave */
+}
+
+.action-button:hover {
+    /* Estilo no hover */
+    opacity: 0.9;
+    /* Leve transparência */
+    transform: translateY(-1px);
+    /* Efeito de levantar */
+}
+
+.delete-button {
+    /* Classe para botões de deletar */
+    background-color: #e53e3e;
+    /* Cor vermelha */
+    color: white;
+    /* Texto branco */
 }
 
 /* ===== LISTA DE SERVIÇOS ===== */
-.servicos-list { /* Container da lista de serviços */
-    margin-top: 30px; /* Espaço acima */
-    padding: 20px; /* Espaçamento interno */
-    background: #f7fafc; /* Cor de fundo */
-    border-radius: 8px; /* Bordas arredondadas */
+.servicos-list {
+    /* Container da lista de serviços */
+    margin-top: 30px;
+    /* Espaço acima */
+    padding: 20px;
+    /* Espaçamento interno */
+    background: #f7fafc;
+    /* Cor de fundo */
+    border-radius: 8px;
+    /* Bordas arredondadas */
 }
 
-.servicos-list__title { /* Título da lista */
-    color: #4a5568; /* Cor do texto */
-    margin-bottom: 15px; /* Espaço abaixo */
+.servicos-list__items {
+    /* Lista de itens */
+    list-style: none;
+    /* Remove marcadores padrão */
 }
 
-.servicos-list__items { /* Lista de itens */
-    list-style: none; /* Remove marcadores padrão */
+.servicos-list__items li {
+    /* Itens da lista */
+    padding: 10px;
+    /* Espaçamento interno */
+    margin-bottom: 8px;
+    /* Espaço entre itens */
+    background: white;
+    /* Fundo branco */
+    border-left: 4px solid #667eea;
+    /* Borda lateral colorida */
+    border-radius: 4px;
+    /* Bordas arredondadas */
+    display: flex;
+    /* Flexbox para layout */
+    justify-content: space-between;
+    /* Espaço entre conteúdo e botão */
+    align-items: center;
+    /* Centraliza verticalmente */
 }
 
-.servicos-list__items li { /* Itens da lista */
-    padding: 10px; /* Espaçamento interno */
-    margin-bottom: 8px; /* Espaço entre itens */
-    background: white; /* Fundo branco */
-    border-left: 4px solid #667eea; /* Borda lateral colorida */
-    border-radius: 4px; /* Bordas arredondadas */
+/* ===== BOTÃO REMOVER SERVIÇO ===== */
+.remove-servico-btn {
+    /* Botão para remover serviço */
+    background: none;
+    /* Sem fundo */
+    border: none;
+    /* Sem borda */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    font-size: 1rem;
+    /* Tamanho da fonte */
+    padding: 5px;
+    /* Espaçamento interno */
+    border-radius: 50%;
+    /* Formato circular */
+    width: 30px;
+    /* Largura fixa */
+    height: 30px;
+    /* Altura fixa */
+    display: flex;
+    /* Flexbox para centralização */
+    align-items: center;
+    /* Centraliza verticalmente */
+    justify-content: center;
+    /* Centraliza horizontalmente */
+}
+
+.remove-servico-btn:hover {
+    /* Estilo no hover */
+    background-color: rgba(229, 62, 62, 0.1);
+    /* Fundo vermelho suave */
 }
 
 /* ===== RODAPÉ ===== */
-.footer { /* Classe do rodapé */
-    text-align: center; /* Centraliza texto */
-    margin-top: 40px; /* Espaço acima */
-    padding: 20px; /* Espaçamento interno */
-    color: #718096; /* Cor do texto */
-    border-top: 1px solid #e2e8f0; /* Linha superior */
+.footer {
+    /* Classe do rodapé */
+    text-align: center;
+    /* Centraliza texto */
+    margin-top: 40px;
+    /* Espaço acima */
+    padding: 20px;
+    /* Espaçamento interno */
+    color: #718096;
+    /* Cor do texto */
+    border-top: 1px solid #e2e8f0;
+    /* Linha superior */
 }
 
-.footer__text { /* Texto do rodapé */
-    font-size: 0.9rem; /* Tamanho menor da fonte */
+.footer__text {
+    /* Texto do rodapé */
+    font-size: 0.9rem;
+    /* Tamanho menor da fonte */
+}
+
+/* ===== BOTÃO MODO ESCURO ===== */
+.btndark {
+    /* Classe do botão modo escuro */
+    position: absolute;
+    /* Posiciona absolutamente no header */
+    top: 20px;
+    /* 20px do topo */
+    right: 20px;
+    /* 20px da direita */
+    padding: 10px;
+    /* Espaçamento interno */
+    background-color: #764ba22c;
+    /* Cor de fundo do botão com transparência */
+    color: white;
+    /* Cor do texto */
+    font-size: 0.65rem;
+    /* Tamanho da fonte */
+    border: none;
+    /* Remove borda padrão */
+    border-radius: 7px;
+    /* Bordas arredondadas */
+    cursor: pointer;
+    /* Cursor de mão ao passar por cima */
+    transition: all 0.3s ease;
+    /* Transição suave para hover */
+}
+
+.btndark:hover {
+    /* Estilo no hover */
+    transform: scale(1.05);
+    /* Aumenta levemente ao passar mouse */
+}
+
+/* ===== SEÇÃO DE ESTATÍSTICAS ===== */
+.stats-section {
+    /* Classe da seção de estatísticas */
+    margin-bottom: 30px;
+    /* Espaço abaixo da seção */
+}
+
+.stats-container {
+    /* Container dos cards de estatística */
+    display: flex;
+    /* Flexbox para layout vertical */
+    flex-direction: column;
+    /* Organiza em coluna */
+    gap: 20px;
+    /* Espaço entre cards */
+}
+
+.stat-card {
+    /* Classe dos cards de estatística */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    /* Gradiente de fundo igual ao header */
+    color: white;
+    /* Cor do texto branco para contraste */
+    padding: 10px;
+    /* Espaçamento interno do card */
+    border-radius: 15px;
+    /* Bordas arredondadas */
+    display: flex;
+    /* Flexbox para alinhar ícone e conteúdo */
+    align-items: center;
+    /* Centraliza verticalmente */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    transition: transform 0.3s ease;
+    /* Transição suave para efeito hover */
+    min-height: 100px;
+    /* Altura mínima para consistência */
+}
+
+.stat-card:hover {
+    /* Estilo no hover */
+    transform: translateY(-5px);
+    /* Efeito de levantar quando mouse passa por cima */
+}
+
+.stat-card__icon {
+    /* Ícone do card */
+    font-size: 2rem;
+    /* Tamanho grande para o emoji/ícone */
+    margin-right: 10px;
+    /* Espaço entre o ícone e o conteúdo */
+}
+
+.stat-card__content {
+    /* Conteúdo do card */
+    flex: 1;
+    /* Ocupa todo o espaço restante */
+}
+
+.stat-card__title {
+    /* Título do card */
+    font-size: 1rem;
+    /* Tamanho do título */
+    margin-bottom: 5px;
+    /* Espaço abaixo do título */
+    opacity: 0.9;
+    /* Leve transparência */
+}
+
+.stat-card__number {
+    /* Número do card */
+    font-size: 2rem;
+    /* Tamanho grande para o número */
+    font-weight: bold;
+    /* Texto em negrito */
+    margin-bottom: 5px;
+    /* Espaço abaixo do número */
+}
+
+.stat-card__subtitle {
+    /* Subtítulo do card */
+    font-size: 0.8rem;
+    /* Tamanho menor para o subtítulo */
+    opacity: 0.8;
+    /* Transparência no subtítulo */
+}
+
+/* ===== TOAST DE NOTIFICAÇÃO ===== */
+.toast {
+    /* Classe da notificação toast */
+    position: fixed;
+    /* Posição fixa na tela */
+    bottom: 20px;
+    /* 20px do fundo */
+    right: 20px;
+    /* 20px da direita */
+    padding: 15px 25px;
+    /* Espaçamento interno */
+    background-color: #38a169;
+    /* Cor de fundo verde (sucesso) */
+    color: white;
+    /* Cor do texto */
+    border-radius: 5px;
+    /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    opacity: 0;
+    /* Inicialmente invisível */
+    transform: translateY(20px);
+    /* Posicionado abaixo */
+    transition: opacity 0.3s, transform 0.3s;
+    /* Transição suave */
+    z-index: 1000;
+    /* Garante que fique acima de outros elementos */
+}
+
+.toast.show {
+    /* Classe para mostrar o toast */
+    opacity: 1;
+    /* Torna visível */
+    transform: translateY(0);
+    /* Move para posição normal */
+}
+
+.toast.error {
+    /* Classe para toast de erro */
+    background-color: #e53e3e;
+    /* Cor de fundo vermelha */
+}
+
+/* ===== ESTADOS DE VALIDAÇÃO DE FORMULÁRIO ===== */
+.form__input.invalid,
+.form__select.invalid {
+    /* Classe para campos inválidos */
+    border-color: #e53e3e;
+    /* Borda vermelha */
+}
+
+.form__input.valid,
+.form__select.valid {
+    /* Classe para campos válidos */
+    border-color: #38a169;
+    /* Borda verde */
+}
+
+/* ===== MODO ESCURO ===== */
+body.dark-mode {
+    /* Classe para modo escuro no body */
+    background-color: #1a1a1a;
+    /* Fundo escuro para toda a página */
+    color: #e0e0e0;
+    /* Texto claro para contraste */
+}
+
+/* Estilos para sections no modo escuro */
+body.dark-mode .section {
+    background-color: #2d2d2d;
+    /* Fundo escuro para as seções */
+    color: #e0e0e0;
+    /* Texto claro nas seções */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    /* Sombra mais escura */
+}
+
+/* Títulos das seções no modo escuro */
+body.dark-mode .section__title {
+    color: #ffffff;
+    /* Títulos em branco puro */
+    border-bottom-color: #444;
+    /* Borda inferior mais escura */
+}
+
+/* Formulários no modo escuro */
+body.dark-mode .form__input,
+body.dark-mode .form__select {
+    background-color: #3d3d3d;
+    /* Fundo escuro nos inputs */
+    color: #ffffff;
+    /* Texto branco nos inputs */
+    border-color: #555;
+    /* Bordas mais escuras */
+}
+
+/* Tabela no modo escuro */
+body.dark-mode .table {
+    color: #e0e0e0;
+    /* Texto claro na tabela */
+}
+
+body.dark-mode .table__header {
+    background: #4a5568;
+    /* Cabeçalho da tabela mais escuro */
+}
+
+body.dark-mode .table__body tr:hover {
+    background: #3d3d3d;
+    /* Linhas da tabela com hover escuro */
+}
+
+/* Lista de serviços no modo escuro */
+body.dark-mode .servicos-list {
+    background: #2d2d2d;
+    /* Fundo escuro para lista de serviços */
+}
+
+/* Rodapé no modo escuro */
+body.dark-mode .footer {
+    color: #a0a0a0;
+    /* Texto do rodapé mais suave */
+    border-top-color: #444;
+    /* Borda superior mais escura */
+}
+
+/* Botão modo escuro no modo escuro */
+body.dark-mode .btndark {
+    background-color: #764ba22c;
+    /* Fundo com transparência */
+    color: white;
+    /* Texto branco */
+}
+
+/* Cards de estatística no modo escuro */
+body.dark-mode .stat-card {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    /* Gradiente mais escuro para modo escuro */
+}
+
+/* Dica de formulário no modo escuro */
+body.dark-mode .form__hint {
+    color: #a0a0a0;
+    /* Cor mais clara */
+}
+
+/* Menu de navegação no modo escuro */
+body.dark-mode .nav-menu {
+    background: #2d2d2d;
+    /* Fundo escuro para o menu */
+    color: #e0e0e0;
+    /* Texto claro */
+}
+
+body.dark-mode .nav-menu__title {
+    color: #ffffff;
+    /* Título em branco */
+    border-bottom-color: #444;
+    /* Borda mais escura */
+}
+
+body.dark-mode .nav-button {
+    background: #3d3d3d;
+    /* Fundo escuro para botões */
+    color: #e0e0e0;
+    /* Texto claro */
+    border-color: #555;
+    /* Borda mais escura */
+}
+
+body.dark-mode .nav-button:hover {
+    background: #667eea;
+    /* Fundo colorido no hover */
+    color: white;
+    /* Texto branco */
+}
+
+body.dark-mode .nav-button--active {
+    background: #667eea;
+    /* Fundo colorido para botão ativo */
+    color: white;
+    /* Texto branco */
 }
 
 /* ===== RESPONSIVIDADE ===== */
-@media (max-width: 768px) { /* Media query para tablets e celulares */
+@media (max-width: 1200px) {
+    /* Telas grandes (laptops) */
+    .main-content {
+        gap: 20px;
+        /* Reduz gap entre colunas */
+    }
+    
+    .stats-sidebar-left {
+        width: 150px;
+        /* Reduz largura da sidebar esquerda */
+    }
+    
+    .stats-sidebar-right {
+        width: 150px;
+        /* Reduz largura da sidebar direita */
+    }
+}
+
+@media (max-width: 1024px) {
+    /* Tablets e telas menores */
+    .main-content {
+        flex-direction: column;
+        /* Empilha todas as colunas em tablets */
+        gap: 30px;
+        /* Aumenta gap vertical */
+    }
+
+    .stats-sidebar-left,
+    .stats-sidebar-right {
+        width: 100%;
+        /* Sidebars ocupam largura total */
+    }
+
+    .stats-sidebar-left .stats-container,
+    .stats-sidebar-right .stats-container {
+        display: grid;
+        /* Usa grid para organizar cards horizontalmente */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        /* Cards responsivos */
+        gap: 20px;
+    }
+
+    .nav-menu {
+        display: flex;
+        /* Flexbox para menu horizontal */
+        flex-wrap: wrap;
+        /* Permite quebra de linha */
+        gap: 10px;
+        /* Espaço entre botões */
+        justify-content: center;
+        /* Centraliza botões */
+    }
+
+    .nav-button {
+        flex: 1;
+        /* Botões ocupam espaço igual */
+        min-width: 150px;
+        /* Largura mínima */
+        text-align: center;
+        /* Centraliza texto */
+        margin-bottom: 0;
+        /* Remove margem inferior */
+    }
+}
+
+@media (max-width: 768px) {
+    /* Celulares */
     body {
-        padding: 10px; /* Reduz padding em telas menores */
+        padding: 10px;
+        /* Reduz padding em telas menores */
     }
-    
+
     .header__title {
-        font-size: 2rem; /* Título menor */
+        font-size: 2rem;
+        /* Título menor */
     }
-    
-    .table { /* Tabela em telas pequenas */
-        display: block; /* Muda display para block */
-        overflow-x: auto; /* Adiciona scroll horizontal */
+
+    .table {
+        /* Tabela em telas pequenas */
+        display: block;
+        /* Muda display para block */
+        overflow-x: auto;
+        /* Adiciona scroll horizontal */
     }
-    
+
     .filters {
-        flex-wrap: wrap; /* Quebra linha se necessário */
+        flex-wrap: wrap;
+        /* Quebra linha se necessário */
+    }
+
+    .stats-sidebar-left .stats-container,
+    .stats-sidebar-right .stats-container {
+        grid-template-columns: 1fr;
+        /* Uma coluna em mobile */
+    }
+
+    .main-content {
+        gap: 20px;
+        /* Reduz gap em mobile */
+    }
+
+    .stat-card {
+        padding: 20px;
+        /* Reduz padding em mobile */
+        min-height: 120px;
+        /* Altura menor em mobile */
+    }
+
+    .stat-card__number {
+        font-size: 2rem;
+        /* Número menor em mobile */
+    }
+
+    .stat-card__icon {
+        font-size: 2.5rem;
+        /* Ícone menor em mobile */
+    }
+
+    .btndark {
+        position: relative;
+        /* Volta ao fluxo normal */
+        top: auto;
+        /* Remove posicionamento */
+        right: auto;
+        /* Remove posicionamento */
+        margin-top: 10px;
+        /* Espaço acima */
+    }
+
+    .servicos-list__items li {
+        flex-direction: column;
+        /* Empilha conteúdo em mobile */
+        align-items: flex-start;
+        /* Alinha à esquerda */
+    }
+
+    .remove-servico-btn {
+        align-self: flex-end;
+        /* Alinha botão à direita */
+        margin-top: 5px;
+        /* Espaço acima */
+    }
+
+    .nav-menu {
+        flex-direction: column;
+        /* Menu vertical em mobile */
+    }
+
+    .nav-button {
+        width: 100%;
+        /* Botões ocupam largura total */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Celulares pequenos */
+    .header__title {
+        font-size: 1.8rem;
+        /* Título ainda menor */
+    }
+    
+    .section {
+        padding: 15px;
+        /* Reduz padding das seções */
+    }
+    
+    .stat-card {
+        padding: 15px;
+        /* Reduz padding dos cards */
+        flex-direction: column;
+        /* Empilha ícone e conteúdo */
+        text-align: center;
+        /* Centraliza texto */
+    }
+    
+    .stat-card__icon {
+        margin-right: 0;
+        /* Remove margem direita */
+        margin-bottom: 10px;
+        /* Adiciona margem abaixo */
+    }
+    
+    .nav-button {
+        font-size: 0.9rem;
+        /* Fonte menor para botões */
+        padding: 10px 8px;
+        /* Reduz padding */
     }
 }
