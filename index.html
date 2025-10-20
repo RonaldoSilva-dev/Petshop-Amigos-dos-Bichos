@@ -32,11 +32,38 @@
     <main class="main">
         <!-- Tag semântica para conteúdo principal -->
 
-        <!-- NOVA ESTRUTURA: Container principal com layout flex -->
+        <!-- NOVO: Container principal com layout flex -->
         <div class="main-content">
             
-            <!-- SIDEBAR ESQUERDA COM 1 CARD -->
+            <!-- SIDEBAR ESQUERDA COM 1 CARD E MENU DE NAVEGAÇÃO -->
             <div class="stats-sidebar-left">
+                <!-- Menu de Navegação com Abas -->
+                <nav class="nav-menu">
+                    <!-- Tag semântica para navegação -->
+                    <h3 class="nav-menu__title">📋 Menu do Sistema</h3>
+                    <!-- Título do menu -->
+                    <button class="nav-button nav-button--active" data-target="cadastro-section">
+                        <!-- Botão de navegação ativo -->
+                        📝 Cadastrar Animal
+                        <!-- Texto do botão com emoji -->
+                    </button>
+                    <button class="nav-button" data-target="lista-section">
+                        <!-- Botão de navegação -->
+                        🐕 Animais Cadastrados
+                        <!-- Texto do botão com emoji -->
+                    </button>
+                    <button class="nav-button" data-target="agendamento-section">
+                        <!-- Botão de navegação -->
+                        📅 Agendar Serviço
+                        <!-- Texto do botão com emoji -->
+                    </button>
+                    <button class="nav-button" data-target="servicos-section">
+                        <!-- Botão de navegação -->
+                        ⏰ Serviços Agendados
+                        <!-- Texto do botão com emoji -->
+                    </button>
+                </nav>
+
                 <section class="stats-section">
                     <div class="stats-container">
                         <!-- Card 1: Total de Animais Cadastrados (LADO ESQUERDO) -->
@@ -60,9 +87,9 @@
             <!-- CONTEÚDO PRINCIPAL (formulários e tabelas) - CENTRO -->
             <div class="content-main">
 
-                <!-- Seção 1: Cadastro de Animais -->
-                <section class="section" id="cadastro-section">
-                    <!-- Seção com classe e ID para estilização -->
+                <!-- Seção 1: Cadastro de Animais (VISÍVEL POR PADRÃO) -->
+                <section class="section content-section active" id="cadastro-section">
+                    <!-- Seção com classe active para estar visível inicialmente -->
                     <h2 class="section__title">📝 Cadastrar Novo Animal</h2>
                     <!-- Título da seção com emoji -->
 
@@ -135,8 +162,9 @@
                     </form>
                 </section>
 
-                <!-- Seção 2: Lista de Animais Cadastrados -->
-                <section class="section" id="lista-section">
+                <!-- Seção 2: Lista de Animais Cadastrados (OCULTA POR PADRÃO) -->
+                <section class="section content-section" id="lista-section">
+                    <!-- Seção sem classe active para estar oculta inicialmente -->
                     <h2 class="section__title">🐕 Lista de Animais Cadastrados</h2>
 
                     <!-- Container para filtros -->
@@ -182,8 +210,9 @@
                     </table>
                 </section>
 
-                <!-- Seção 3: Agendamento de Serviços -->
-                <section class="section" id="agendamento-section">
+                <!-- Seção 3: Agendamento de Serviços (OCULTA POR PADRÃO) -->
+                <section class="section content-section" id="agendamento-section">
+                    <!-- Seção sem classe active para estar oculta inicialmente -->
                     <h2 class="section__title">📅 Agendar Serviço</h2>
 
                     <form class="form" id="servico-form">
@@ -225,10 +254,15 @@
                         <button type="submit" class="form__button">Agendar Serviço</button>
 
                     </form>
+                </section>
+
+                <!-- Seção 4: Serviços Agendados (OCULTA POR PADRÃO) -->
+                <section class="section content-section" id="servicos-section">
+                    <!-- Seção sem classe active para estar oculta inicialmente -->
+                    <h2 class="section__title">⏰ Serviços Agendados</h2>
 
                     <!-- Lista de Serviços Agendados -->
                     <div class="servicos-list">
-                        <h3 class="servicos-list__title">Serviços Agendados</h3>
                         <ul id="lista-servicos" class="servicos-list__items">
                             <!-- Lista não ordenada -->
                             <!-- Serviços serão inseridos aqui via JavaScript -->
@@ -283,7 +317,7 @@
     <!-- Rodapé da página -->
     <footer class="footer">
         <!-- Tag semântica para rodapé -->
-        <p class="footer__text">Sistema desenvolvido pelo Grupo 2 Amigos dos Bichos &copy; 2024</p>
+        <p class="footer__text">Sistema Amigos dos Bichos &copy; 2024</p>
         <!-- Texto do rodapé -->
     </footer>
 

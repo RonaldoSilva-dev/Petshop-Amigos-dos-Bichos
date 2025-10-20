@@ -81,9 +81,9 @@ body {
     /* Alinha itens no topo */
 }
 
-/* NOVO: Sidebar esquerda para 1 card */
+/* NOVO: Sidebar esquerda para menu e 1 card */
 .stats-sidebar-left {
-    width: 200;
+    width: 200px;
     /* Largura fixa para a sidebar esquerda */
     flex-shrink: 0;
     /* Impede que a sidebar encolha */
@@ -103,6 +103,134 @@ body {
     /* Ocupa todo o espaço restante entre as sidebars */
     min-width: 0;
     /* Permite que o conteúdo principal quebre linha se necessário */
+    position: relative;
+    /* Para posicionamento dos elementos filhos */
+}
+
+/* ===== MENU DE NAVEGAÇÃO ===== */
+.nav-menu {
+    /* Container do menu de navegação */
+    background: white;
+    /* Fundo branco */
+    padding: 10px;
+    /* Espaçamento interno */
+    border-radius: 10px;
+    /* Bordas arredondadas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+    margin-bottom: 15px;
+    /* Espaço abaixo do menu */
+    transition: background-color 0.3s;
+    /* Transição suave para modo escuro */
+}
+
+.nav-menu__title {
+    /* Título do menu */
+    color: #4a5568;
+    /* Cor do texto */
+    margin-bottom: 15px;
+    /* Espaço abaixo do título */
+    font-size: 1.1rem;
+    /* Tamanho da fonte */
+    border-bottom: 2px solid #e2e8f0;
+    /* Linha inferior */
+    padding-bottom: 10px;
+    /* Espaço acima da linha */
+    text-align: center;
+    /* Centraliza o texto */
+}
+
+.nav-button {
+    /* Classe base para botões do menu */
+    display: block;
+    /* Ocupa toda a largura disponível */
+    width: 100%;
+    /* Largura total */
+    padding: 12px 15px;
+    /* Espaçamento interno */
+    margin-bottom: 10px;
+    /* Espaço entre botões */
+    background: #f7fafc;
+    /* Cor de fundo clara */
+    color: #4a5568;
+    /* Cor do texto */
+    border: 2px solid #e2e8f0;
+    /* Borda sutil */
+    border-radius: 8px;
+    /* Bordas arredondadas */
+    font-size: 0.95rem;
+    /* Tamanho da fonte */
+    cursor: pointer;
+    /* Cursor de ponteiro */
+    transition: all 0.3s ease;
+    /* Transição suave */
+    text-align: left;
+    /* Alinha texto à esquerda */
+}
+
+.nav-button:hover {
+    /* Estilo no hover */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
+    border-color: #667eea;
+    /* Borda colorida */
+    transform: translateX(5px);
+    /* Efeito de deslocamento */
+}
+
+.nav-button--active {
+    /* Classe para botão ativo */
+    background: #667eea;
+    /* Fundo colorido */
+    color: white;
+    /* Texto branco */
+    border-color: #667eea;
+    /* Borda colorida */
+    font-weight: bold;
+    /* Texto em negrito */
+}
+
+/* ===== SEÇÕES DE CONTEÚDO ===== */
+.content-section {
+    /* Classe base para todas as seções de conteúdo */
+    display: none;
+    /* Oculta todas as seções por padrão */
+    opacity: 0;
+    /* Transparência total */
+    transform: translateY(20px);
+    /* Posiciona ligeiramente abaixo */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* Transição suave */
+}
+
+.content-section.active {
+    /* Classe para seção ativa (visível) */
+    display: block;
+    /* Mostra a seção */
+    opacity: 1;
+    /* Transparência total */
+    transform: translateY(0);
+    /* Posição normal */
+    animation: fadeInUp 0.5s ease;
+    /* Animação de entrada */
+}
+
+@keyframes fadeInUp {
+    /* Animação para aparecer subindo */
+    from {
+        opacity: 0;
+        /* Inicia transparente */
+        transform: translateY(20px);
+        /* Inicia abaixo */
+    }
+    to {
+        opacity: 1;
+        /* Termina visível */
+        transform: translateY(0);
+        /* Termina na posição normal */
+    }
 }
 
 .section {
@@ -378,14 +506,6 @@ body {
     /* Bordas arredondadas */
 }
 
-.servicos-list__title {
-    /* Título da lista */
-    color: #4a5568;
-    /* Cor do texto */
-    margin-bottom: 15px;
-    /* Espaço abaixo */
-}
-
 .servicos-list__items {
     /* Lista de itens */
     list-style: none;
@@ -560,7 +680,7 @@ body {
 
 .stat-card__title {
     /* Título do card */
-    font-size: 0.8rem;
+    font-size: 1rem;
     /* Tamanho do título */
     margin-bottom: 5px;
     /* Espaço abaixo do título */
@@ -699,15 +819,9 @@ body.dark-mode .table__body tr:hover {
 }
 
 /* Lista de serviços no modo escuro */
-body.dark-mode .servicos-list{
+body.dark-mode .servicos-list {
     background: #2d2d2d;
     /* Fundo escuro para lista de serviços */
-}
-
-/* Itens da lista de serviços no modo escuro */
-body.dark-mode .servicos-list__items li{
-    background: #2d2d2d;
-    /* Fundo das lista serviços escuros*/
 }
 
 /* Rodapé no modo escuro */
@@ -738,6 +852,44 @@ body.dark-mode .form__hint {
     /* Cor mais clara */
 }
 
+/* Menu de navegação no modo escuro */
+body.dark-mode .nav-menu {
+    background: #2d2d2d;
+    /* Fundo escuro para o menu */
+    color: #e0e0e0;
+    /* Texto claro */
+}
+
+body.dark-mode .nav-menu__title {
+    color: #ffffff;
+    /* Título em branco */
+    border-bottom-color: #444;
+    /* Borda mais escura */
+}
+
+body.dark-mode .nav-button {
+    background: #3d3d3d;
+    /* Fundo escuro para botões */
+    color: #e0e0e0;
+    /* Texto claro */
+    border-color: #555;
+    /* Borda mais escura */
+}
+
+body.dark-mode .nav-button:hover {
+    background: #667eea;
+    /* Fundo colorido no hover */
+    color: white;
+    /* Texto branco */
+}
+
+body.dark-mode .nav-button--active {
+    background: #667eea;
+    /* Fundo colorido para botão ativo */
+    color: white;
+    /* Texto branco */
+}
+
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 1200px) {
     /* Telas grandes (laptops) */
@@ -746,10 +898,14 @@ body.dark-mode .form__hint {
         /* Reduz gap entre colunas */
     }
     
-    .stats-sidebar-left,
+    .stats-sidebar-left {
+        width: 150px;
+        /* Reduz largura da sidebar esquerda */
+    }
+    
     .stats-sidebar-right {
-        width: 280px;
-        /* Reduz largura das sidebars */
+        width: 150px;
+        /* Reduz largura da sidebar direita */
     }
 }
 
@@ -775,6 +931,28 @@ body.dark-mode .form__hint {
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         /* Cards responsivos */
         gap: 20px;
+    }
+
+    .nav-menu {
+        display: flex;
+        /* Flexbox para menu horizontal */
+        flex-wrap: wrap;
+        /* Permite quebra de linha */
+        gap: 10px;
+        /* Espaço entre botões */
+        justify-content: center;
+        /* Centraliza botões */
+    }
+
+    .nav-button {
+        flex: 1;
+        /* Botões ocupam espaço igual */
+        min-width: 150px;
+        /* Largura mínima */
+        text-align: center;
+        /* Centraliza texto */
+        margin-bottom: 0;
+        /* Remove margem inferior */
     }
 }
 
@@ -855,6 +1033,16 @@ body.dark-mode .form__hint {
         margin-top: 5px;
         /* Espaço acima */
     }
+
+    .nav-menu {
+        flex-direction: column;
+        /* Menu vertical em mobile */
+    }
+
+    .nav-button {
+        width: 100%;
+        /* Botões ocupam largura total */
+    }
 }
 
 @media (max-width: 480px) {
@@ -883,5 +1071,12 @@ body.dark-mode .form__hint {
         /* Remove margem direita */
         margin-bottom: 10px;
         /* Adiciona margem abaixo */
+    }
+    
+    .nav-button {
+        font-size: 0.9rem;
+        /* Fonte menor para botões */
+        padding: 10px 8px;
+        /* Reduz padding */
     }
 }
