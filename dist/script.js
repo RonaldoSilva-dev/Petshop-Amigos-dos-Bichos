@@ -169,8 +169,8 @@ function mostrarSecao(targetSectionId) {
 function setupNavegacao() {
     // Adiciona event listener para cada botão do menu
     navButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            const targetSection = this.getAttribute('data-target'); // Obtém o ID da seção alvo
+        button.addEventListener('click', () => {
+            const targetSection = button.getAttribute('data-target'); // Obtém o ID da seção alvo
             if (targetSection) {
                 mostrarSecao(targetSection); // Mostra a seção correspondente
             }
@@ -592,4 +592,9 @@ document.addEventListener('DOMContentLoaded', () => {
     atualizarEstatisticas();
     // Garante que a seção de cadastro esteja ativa por padrão
     mostrarSecao('cadastro-section');
+    // EXPLICAÇÃO: Estas mensagens ajudam no desenvolvimento e teste! 
+    console.log("🚀Sistema PetShop carregado com sucesso!");
+    console.log("🐾Desenvolvido com TypeScript para evitar erros!");
+    console.log("💡Dica: Abra o Console (F12) para ver mensagens!");
+    console.log("👉Clique nos botões para testar as funcionalidades!");
 });
