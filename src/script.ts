@@ -221,7 +221,7 @@ function mostrarSecao(targetSectionId: string): void {
 function setupNavegacao(): void {
     // Adiciona event listener para cada botão do menu
     navButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(this: HTMLButtonElement) {
             const targetSection = this.getAttribute('data-target'); // Obtém o ID da seção alvo
             if (targetSection) {
                 mostrarSecao(targetSection); // Mostra a seção correspondente
