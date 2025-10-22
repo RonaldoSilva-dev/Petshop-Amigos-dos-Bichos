@@ -106,7 +106,7 @@ body.dark-mode {
     /* Gradiente de fundo */
     color: white;
     /* Cor do texto */
-    border-radius: 10px;
+    border-radius: 0;
     /* Bordas arredondadas */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.144);
     /* Sombra suave */
@@ -635,6 +635,7 @@ body.dark-mode {
 
 /* ===== RODAPÉ ===== */
 .footer {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     /* Classe do rodapé */
     text-align: center;
     /* Centraliza texto */
@@ -642,7 +643,7 @@ body.dark-mode {
     /* Espaço acima */
     padding: 20px;
     /* Espaçamento interno */
-    color: #718096;
+    color: white;
     /* Cor do texto */
     border-top: 1px solid #e2e8f0;
     /* Linha superior */
