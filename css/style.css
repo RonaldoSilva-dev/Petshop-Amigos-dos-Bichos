@@ -94,24 +94,22 @@ body.dark-mode {
 }
 
 /* ===== HEADER ===== */
+/* ===== HEADER ===== */
 .header {    
-    /* Classe do cabeçalho */
-    text-align: center;
-    /* Centraliza o texto */
-    margin-bottom: 30px;
-    /* Espaço abaixo do header */
-    padding: 20px;
-    /* Espaçamento interno */
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    /* Gradiente de fundo */
-    color: white;
-    /* Cor do texto */
-    border-radius: 0;
-    /* Bordas arredondadas */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.144);
-    /* Sombra suave */
-    position: relative;
-    /* Permite posicionamento absoluto de elementos filhos */
+    /* Classe do cabeçalho - MODIFICADA PARA FIXO */
+    position: fixed; /* ⭐ ALTERADO: Agora fica fixo no topo da tela */
+    top: 0; /* ⭐ NOVO: Colado no topo da tela */
+    left: 0; /* ⭐ NOVO: Colado na esquerda da tela */
+    right: 0; /* ⭐ NOVO: Ocupa toda a largura da tela */
+    width: 100%; /* ⭐ NOVO: Garante 100% de largura */
+    text-align: center; /* Centraliza o texto */
+    margin-bottom: 0; /* ⭐ ALTERADO: Remove margem inferior */
+    padding: 20px; /* Espaçamento interno */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradiente de fundo */
+    color: white; /* Cor do texto */
+    border-radius: 0; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.144); /* Sombra suave */
+    z-index: 1000; /* ⭐ NOVO: Garante que fique acima do conteúdo */
 }
 
 .header__title {
@@ -133,10 +131,10 @@ body.dark-mode {
 /* ===== LAYOUT PRINCIPAL ===== */
 .main {
     /* Classe do conteúdo principal */
-    max-width: 1600px;
-    /* Largura máxima aumentada para acomodar sidebars */
-    margin: 0 auto;
-    /* Centraliza na página */
+    max-width: 1600px; /* Largura máxima aumentada para acomodar sidebars */
+    margin: 0 auto; /* Centraliza na página */
+    margin-top: 140px; /* ⭐ NOVO: Espaço para o header fixo não cobrir o conteúdo */
+    padding-top: 20px; /* ⭐ NOVO: Padding adicional para segurança */
 }
 
 /* NOVO: Container principal com layout flex para 3 colunas */
@@ -657,35 +655,24 @@ body.dark-mode {
 
 /* ===== BOTÃO MODO ESCURO ===== */
 .btndark {
-    /* Classe do botão modo escuro */
-    position: absolute;
-    /* Posiciona absolutamente no header */
-    top: 20px;
-    /* 20px do topo */
-    right: 20px;
-    /* 20px da direita */
-    padding: 10px;
-    /* Espaçamento interno */
-    background-color: #764ba22c;
-    /* Cor de fundo do botão com transparência */
-    color: white;
-    /* Cor do texto */
-    font-size: 0.65rem;
-    /* Tamanho da fonte */
-    border: none;
-    /* Remove borda padrão */
-    border-radius: 7px;
-    /* Bordas arredondadas */
-    cursor: pointer;
-    /* Cursor de mão ao passar por cima */
-    transition: all 0.3s ease;
-    /* Transição suave para hover */
+    /* Classe do botão modo escuro - AJUSTADO PARA HEADER FIXO */
+    position: absolute; /* Mantém posicionamento absoluto DENTRO do header */
+    top: 20px; /* 20px do topo DO HEADER */
+    right: 20px; /* 20px da direita DO HEADER */
+    padding: 10px; /* Espaçamento interno */
+    background-color: #764ba22c; /* Cor de fundo do botão com transparência */
+    color: white; /* Cor do texto */
+    font-size: 0.65rem; /* Tamanho da fonte */
+    border: none; /* Remove borda padrão */
+    border-radius: 7px; /* Bordas arredondadas */
+    cursor: pointer; /* Cursor de mão ao passar por cima */
+    transition: all 0.3s ease; /* Transição suave para hover */
+    z-index: 1001; /* ⭐ NOVO: Garante que fique acima do header */
 }
 
 .btndark:hover {
     /* Estilo no hover */
-    transform: scale(1.05);
-    /* Aumenta levemente ao passar mouse */
+    transform: scale(1.05); /* Aumenta levemente ao passar mouse */
 }
 
 /* ===== SEÇÃO DE ESTATÍSTICAS ===== */
@@ -959,6 +946,17 @@ body.dark-mode .nav-button--active {
     /* Texto branco */
 }
 
+body.dark-mode .servicos-list__items li {
+    background-color: #3d3d3d; /* Fundo escuro igual às outras seções no modo escuro */
+    color: white; /* Texto claro para melhor contraste no modo escuro */
+    border-left-color: #667eea; /* Mantém a borda lateral colorida para destaque */
+}
+
+body.dark-mode .servicos-list {
+    background-color: #2d2d2d; /* Fundo escuro para o container da lista de serviços */
+    color: #e0e0e0; /* Texto claro no container principal */
+}
+
 /* ===== RESPONSIVIDADE ===== */
 @media (max-width: 1200px) {
     /* Telas grandes (laptops) */
@@ -1026,67 +1024,35 @@ body.dark-mode .nav-button--active {
 }
 
 @media (max-width: 768px) {
-    /* Celulares */
-    body {
-        padding: 10px;
-        /* Reduz padding em telas menores */
+    /* Celulares - AJUSTES PARA HEADER FIXO */
+    
+    .header {
+        padding: 15px; /* ⭐ Reduz padding no header para mobile */
+        position: fixed; /* ⭐ Mantém fixo em mobile */
     }
-
+    
     .header__title {
-        font-size: 2rem;
-        /* Título menor */
+        font-size: 1.8rem; /* ⭐ Título menor em mobile */
+        margin-bottom: 5px; /* ⭐ Menos espaço abaixo do título */
     }
-
-    .table {
-        /* Tabela em telas pequenas */
-        display: block;
-        /* Muda display para block */
-        overflow-x: auto;
-        /* Adiciona scroll horizontal */
+    
+    .header__subtitle {
+        font-size: 0.9rem; /* ⭐ Subtítulo menor em mobile */
     }
-
-    .filters {
-        flex-wrap: wrap;
-        /* Quebra linha se necessário */
+    
+    .main {
+        margin-top: 120px; /* ⭐ Ajuste menor do margin-top para mobile */
     }
-
-    .stats-sidebar-left .stats-container,
-    .stats-sidebar-right .stats-container {
-        grid-template-columns: 1fr;
-        /* Uma coluna em mobile */
-    }
-
-    .main-content {
-        gap: 20px;
-        /* Reduz gap em mobile */
-    }
-
-    .stat-card {
-        padding: 20px;
-        /* Reduz padding em mobile */
-        min-height: 120px;
-        /* Altura menor em mobile */
-    }
-
-    .stat-card__number {
-        font-size: 2rem;
-        /* Número menor em mobile */
-    }
-
-    .stat-card__icon {
-        font-size: 2.5rem;
-        /* Ícone menor em mobile */
-    }
-
+    
     .btndark {
-        position: relative;
-        /* Volta ao fluxo normal */
-        top: auto;
-        /* Remove posicionamento */
-        right: auto;
-        /* Remove posicionamento */
-        margin-top: 10px;
-        /* Espaço acima */
+        position: relative; /* ⭐ Volta ao fluxo normal em mobile */
+        top: auto; /* ⭐ Remove posicionamento */
+        right: auto; /* ⭐ Remove posicionamento */
+        margin-top: 10px; /* ⭐ Espaço acima */
+        display: block; /* ⭐ Ocupa linha inteira */
+        margin-left: auto; /* ⭐ Centraliza */
+        margin-right: auto; /* ⭐ Centraliza */
+        width: 150px; /* ⭐ Largura fixa */
     }
 
     .servicos-list__items li {
@@ -1149,3 +1115,84 @@ body.dark-mode .nav-button--active {
         /* Reduz padding */
     }
 }
+
+/* ===== BOTÃO WHATSAPP FLUTUANTE ===== */
+.whatsapp-float {
+    position: fixed; /* Posicionamento fixo na tela - não rola com a página */
+    bottom: 25px; /* 25px do fundo da tela */
+    right: 25px; /* 25px da direita da tela */
+    z-index: 1000; /* Garante que fique acima de todos os elementos */
+    animation: float 3s ease-in-out infinite; /* Animação de flutuação contínua */
+}
+
+.whatsapp-link {
+    display: flex; /* Flexbox para alinhar ícone e texto */
+    align-items: center; /* Centraliza verticalmente */
+    background: #25D366; /* Cor verde oficial do WhatsApp */
+    color: white; /* Texto branco para contraste */
+    text-decoration: none; /* Remove sublinhado do link */
+    padding: 12px 20px; /* Espaçamento interno confortável */
+    border-radius: 50px; /* Bordas completamente arredondadas */
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); /* Sombra verde suave */
+    transition: all 0.3s ease; /* Transição suave para todos os efeitos */
+    font-weight: bold; /* Texto em negrito */
+    font-size: 0.9rem; /* Tamanho de fonte adequado */
+}
+
+.whatsapp-link:hover {
+    background: #128C7E; /* Cor mais escura no hover */
+    transform: scale(1.05); /* Aumenta levemente ao passar o mouse */
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); /* Sombra mais intensa no hover */
+}
+
+.whatsapp-icon {
+    font-size: 1.5rem; /* Tamanho maior para o ícone */
+    margin-right: 8px; /* Espaço entre ícone e texto */
+}
+
+.whatsapp-text {
+    white-space: nowrap; /* Impede quebra de linha do texto */
+}
+
+/* Animação de flutuação suave */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0); /* Posição normal */
+    }
+    50% {
+        transform: translateY(-5px); /* Levanta 5px no meio da animação */
+    }
+}
+
+/* Estilo do botão WhatsApp no modo escuro */
+body.dark-mode .whatsapp-link {
+    background: #128C7E; /* Verde mais escuro para modo escuro */
+    box-shadow: 0 4px 15px rgba(18, 140, 126, 0.5); /* Sombra ajustada */
+}
+
+body.dark-mode .whatsapp-link:hover {
+    background: #0C6B5F; /* Verde ainda mais escuro no hover */
+}
+
+/* Responsividade para o botão WhatsApp */
+@media (max-width: 768px) {
+    .whatsapp-float {
+        bottom: 20px; /* Menos espaço do fundo em mobile */
+        right: 20px; /* Menos espaço da direita em mobile */
+    }
+    
+    .whatsapp-link {
+        padding: 10px 16px; /* Padding menor em mobile */
+        font-size: 0.8rem; /* Fonte menor em mobile */
+    }
+    
+    .whatsapp-text {
+        display: none; /* Esconde o texto em mobile, mostra apenas ícone */
+    }
+    
+    .whatsapp-icon {
+        margin-right: 0; /* Remove margem quando só tem ícone */
+        font-size: 1.8rem; /* Ícone maior em mobile */
+    }
+}
+

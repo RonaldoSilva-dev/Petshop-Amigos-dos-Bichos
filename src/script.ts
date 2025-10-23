@@ -727,3 +727,4 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("💡Dica: Abra o Console (F12) para ver mensagens!"); 
     console.log("👉Clique nos botões para testar as funcionalidades!"); 
 });
+

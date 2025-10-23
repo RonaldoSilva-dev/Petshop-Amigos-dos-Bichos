@@ -4,6 +4,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "lib": ["ES6", "DOM"],
     "skipLibCheck": true
   },
